@@ -1,20 +1,16 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
-Version: 3.1.3
-Release: 12
+Version: 3.1.4
+Release: 3
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
-Patch3: gawk-3.1.3-fix1.patch
-Patch4: gawk-3.1.3-fix2.patch
-Patch5: gawk-3.1.3-fix3.patch
-Patch6: gawk-3.1.3-fix4.patch
-Patch7: gawk-3.1.3-fix5.patch
-Patch8: gawk-3.1.3-getpgrp_void.patch
-Patch9: gawk-3.1.3-numfiles.patch
-Patch10: gawk-3.1.3-trans.patch
-
+Patch1: gawk-3.1.3-getpgrp_void.patch
+Patch2: gawk-3.1.4-dfacache.patch
+Patch3: gawk-3.1.4-flonum.patch
+Patch4: gawk-3.1.4-nextc.patch
+Patch5: gawk-3.1.4-uplow.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -29,14 +25,11 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q -b 1
-%patch3 -p1 -b .fix1
-%patch4 -p0 -b .fix2
-%patch5 -p1 -b .fix3
-%patch6 -p1 -b .fix4
-%patch7 -p1 -b .fix5
-%patch8 -p1 -b .getpgrp_void
-%patch9 -p1 -b .fix64
-%patch10 -p1 -b .trans
+%patch1 -p1 -b .getpgrp_void
+%patch2 -p1 -b .dfacache
+%patch3 -p1 -b .flonum
+%patch4 -p1 -b .nextc
+%patch5 -p1 -b .uplow
 
 %build
 %configure
@@ -85,8 +78,22 @@ fi
 %{_datadir}
 
 %changelog
-* Thu Nov  4 2004 Karel Zak <kzak@redhat.com> 3.1.3-10
-- fixed crash on non-UTF8 locales (#137832)
+* Thu Nov 11 2004 Karel Zak <kzak@redhat.com> 3.1.4-3
+- rebuilt to FC4 
+
+* Tue Nov  9 2004 Karel Zak <kzak@redhat.com> 3.1.4-2
+- add dfacache.patch for fix LC_ALL=de_DE.UTF-8 ./gawk '/^[ \t]/ { print }',
+  (by Aharon Robbins), #135210, #131498
+- add flonum.patch for "improved" handling of non-numeric constants,
+  second version of patch (by Aharon Robbins)
+  http://lists.gnu.org/archive/html/bug-gnu-utils/2004-10/msg00046.html
+- add nextc.patch (by Andreas Schwab)
+  http://lists.gnu.org/archive/html/bug-gnu-utils/2004-09/msg00093.html
+- add uplow.patch for fix the wide char handling (by Stepan Kasal)
+  http://lists.gnu.org/archive/html/bug-gnu-utils/2004-10/msg00099.html
+
+* Tue Aug 31 2004 Thomas Woerner <twoerner@redhat.com> 3.1.4-1
+- new version 3.1.4
 
 * Mon Jun 28 2004 Thomas Woerner <twoerner@redhat.com> 3.1.3-9
 - fixed "read only one input file on 64-bit architectures"
