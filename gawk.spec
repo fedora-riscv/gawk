@@ -1,17 +1,14 @@
-%define enable_japanese 1
-
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
-Version: 3.0.4
-Release: 2j3
-Copyright: GPL
+Version: 3.0.6
+Release: 1
+License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch: gawk-3.0-unaligned.patch
-Patch10: http://member.nifty.ne.jp/wills/program/gawkmb113.diff.gz
 Prereq: /sbin/install-info
-BuildRoot: /var/tmp/%{name}-root
+Buildroot: %{_tmppath}/%{name}-root
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -24,9 +21,6 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q -b 1
 %patch -p1
-%if %{enable_japanese}
-%patch10 -p1
-%endif
 
 %build
 %configure
@@ -34,23 +28,19 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall mandir=${RPM_BUILD_ROOT}%{_mandir}/man1 \
-        bindir=${RPM_BUILD_ROOT}/bin \
-        libexecdir=${RPM_BUILD_ROOT}%{_libexecdir}/awk \
-        datadir=${RPM_BUILD_ROOT}%{_datadir}/awk
-#make install prefix=$RPM_BUILD_ROOT%{_prefix} bindir=$RPM_BUILD_ROOT/bin libexedir=$RPM_BUILD_ROOT/libexec
-#strip ${RPM_BUILD_ROOT}/bin/gawk || :
-#strip ${RPM_BUILD_ROOT}%{_prefix}/libexec/awk/* || :
+%makeinstall bindir=${RPM_BUILD_ROOT}/bin \
+	mandir=${RPM_BUILD_ROOT}%{_mandir}/man1 \
+	libexecdir=${RPM_BUILD_ROOT}%{_libexecdir}/awk \
+	datadir=${RPM_BUILD_ROOT}%{_datadir}/awk
 
 ( cd $RPM_BUILD_ROOT
   rm -f .%{_infodir}/dir
   gzip -9nf .%{_infodir}/gawk.info*
   mkdir -p .%{_prefix}/bin
-  cd .%{_mandir}/man1
-  ln -sf gawk.1.gz awk.1.gz
-  cd $RPM_BUILD_ROOT
-  ln -sf /bin/gawk .%{_prefix}/bin/awk
-  ln -sf /bin/gawk .%{_prefix}/bin/gawk
+  ln -sf gawk.1.gz .%{_mandir}/man1/awk.1.gz
+  cd bin
+  ln -sf ../../bin/gawk ../usr/bin/awk
+  ln -sf ../../bin/gawk ../usr/bin/gawk
 )
 
 %clean
@@ -65,29 +55,53 @@ if [ $1 = 0 ]; then
 fi
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %doc README COPYING ACKNOWLEDGMENT FUTURES INSTALL LIMITATIONS NEWS PORTS 
 %doc README_d POSIX.STD doc/gawk.ps doc/awkcard.ps
 /bin/*
-%{_prefix}/bin/*
+/usr/bin/*
 %{_mandir}/man1/*
 %{_infodir}/gawk.info*
-%{_prefix}/libexec/awk
-%{_prefix}/share/awk
+%{_libexecdir}/awk
+%{_datadir}/awk
 
 %changelog
-* Mon Sep 11 2000 Matt Wilson <msw@redhat.com>
-- added %%defattr(-,root,root)
+* Wed Aug 16 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- update to 3.06
 
-* Tue Aug 01 2000 Yukihiro Nakai <ynakai@redhat.com>
-- Update japanese patch to 2000.06.18 version.
-- Rebuild for 7.0J
+* Tue Aug 15 2000 Trond Eivind Glomsrød <teg@redhat.com>
+- /usr/bin/gawk can't point at gawk - infinite symlink
+- /usr/bin/awk can't point at gawk - infinite symlink
 
-* Wed Mar 15 2000 Matt Wilson <msw@redhat.com>
-- use enable_japanese macro
+* Mon Aug 14 2000 Preston Brown <pbrown@redhat.com>
+- absolute --> relative symlinks
 
-* Tue Mar 14 2000 Chris Ding <cding@redhat.com>
-- added patch for multi-byte
+* Tue Aug  8 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- fix paths for "configure" call
+
+* Thu Jul 13 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- add another bugfix
+
+* Thu Jul 13 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- update to 3.0.5 with bugfix
+
+* Wed Jul 12 2000 Prospector <bugzilla@redhat.com>
+- automatic rebuild
+
+* Fri Jun 30 2000 Matt Wilson <msw@redhat.com>
+- revert to 3.0.4.  3.0.5 misgenerates e2fsprogs' test cases
+
+* Wed Jun 28 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- update to 3.0.5
+
+* Mon Jun 19 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- add defattr
+
+* Mon Jun 19 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- FHS
+
+* Tue Mar 14 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- add bug-fix
 
 * Thu Feb  3 2000 Bernhard Rosenkraenzer <bero@redhat.com>
 - Fix man page symlinks
