@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.3
-Release: 8
+Release: 9
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -12,6 +12,7 @@ Patch5: gawk-3.1.3-fix3.patch
 Patch6: gawk-3.1.3-fix4.patch
 Patch7: gawk-3.1.3-fix5.patch
 Patch8: gawk-3.1.3-getpgrp_void.patch
+Patch9: gawk-3.1.3-numfiles.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -32,6 +33,7 @@ considered to be a standard Linux tool for processing text.
 %patch6 -p1 -b .fix4
 %patch7 -p1 -b .fix5
 %patch8 -p1 -b .getpgrp_void
+%patch9 -p1 -b .fix64
 
 %build
 %configure
@@ -80,6 +82,9 @@ fi
 %{_datadir}
 
 %changelog
+* Mon Jun 28 2004 Thomas Woerner <twoerner@redhat.com> 3.1.3-9
+- fixed "read only one input file on 64-bit architectures"
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
