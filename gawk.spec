@@ -1,14 +1,19 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
-Version: 3.1.1
-Release: 9
+Version: 3.1.3
+Release: 3
 License: GPL
 Group: Applications/Text
-Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
+Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch0: gawk-3.1.0-newsecurity.patch
 Patch1: gawk-3.1.0-shutup.patch
 Patch2: gawk-3.1.1-ngroups.patch
+Patch3: gawk-3.1.3-fix1.patch
+Patch4: gawk-3.1.3-fix2.patch
+Patch5: gawk-3.1.3-fix3.patch
+Patch6: gawk-3.1.3-fix4.patch
+Patch7: gawk-3.1.3-fix5.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -23,9 +28,14 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q -b 1
-%patch0 -p1 -b .mktemp
+#%patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
+%patch3 -p1
+%patch4 -p0
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
 %configure
@@ -52,14 +62,16 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/awk/locale $RPM_BUILD_ROOT%{_datadir}/locale
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info %{_infodir}/gawk.info.gz %{_infodir}/dir
+if [ -f %{_infodir}/gawk.info.gz ]; then
+    /sbin/install-info %{_infodir}/gawk.info.gz %{_infodir}/dir
+fi
 
 %preun
-if [ $1 = 0 ]; then
+if [ $1 = 0 -a -f %{_infodir}/gawk.info.gz ]; then
    /sbin/install-info --delete %{_infodir}/gawk.info.gz %{_infodir}/dir
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc README COPYING FUTURES INSTALL LIMITATIONS NEWS
 %doc README_d POSIX.STD doc/gawk.ps doc/awkcard.ps
@@ -71,6 +83,32 @@ fi
 %{_datadir}
 
 %changelog
+* Mon Sep 22 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- add even more patches from the mailinglist
+
+* Tue Jul 15 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- add first bug-fixes from the mailinglist
+
+* Sun Jul 13 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- update to 3.1.3
+- pgawk man-page fix and /proc fix are obsolete
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Wed Jun 04 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- fix --exclude-docs #92252
+
+* Sun May 04 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- fix find_lang
+
+* Tue Apr 15 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- fix .so pointer in pgawk man-page
+- also read files in /proc correctly that have a filesize of 0
+
+* Sun Mar 30 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- update to 3.1.2
+
 * Wed Jan 22 2003 Tim Powers <timp@redhat.com>
 - rebuilt
 
