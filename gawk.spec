@@ -1,20 +1,21 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.0
-Release: 3
+Release: 4
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch0: gawk-3.1.0-newsecurity.patch
 Patch1: gawk-3.1.0-shutup.patch
+Patch2: gawk-3.1.0-hex.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
-utility.  Awk interprets a special-purpose programming language to do
+utility. Awk interprets a special-purpose programming language to do
 quick and easy text pattern matching and reformatting jobs.
 
 Install the gawk package if you need a text processing utility. Gawk is
@@ -24,6 +25,7 @@ considered to be a standard Linux tool for processing text.
 %setup -q -b 1
 %patch0 -p1 -b .mktemp
 %patch1 -p1
+%patch2 -p0
 
 %build
 %configure
@@ -68,6 +70,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Sun Mar 17 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- add patch from #61316 to ignore wrong hex numbers and treat them as text
+
 * Tue Jul 31 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - do not warn about unnecessary escaping
 
