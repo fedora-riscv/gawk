@@ -1,13 +1,14 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
-Version: 3.0.6
+Version: 3.1.0
 Release: 2
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
-Patch: gawk-3.0-unaligned.patch
+Patch0: gawk-3.1.0-newsecurity.patch
 Prereq: /sbin/install-info
+Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
 
 %description
@@ -20,7 +21,7 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q -b 1
-%patch -p1
+%patch0 -p1 -b .mktemp
 
 %build
 %configure
@@ -29,7 +30,6 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall bindir=${RPM_BUILD_ROOT}/bin \
-	mandir=${RPM_BUILD_ROOT}%{_mandir}/man1 \
 	libexecdir=${RPM_BUILD_ROOT}%{_libexecdir}/awk \
 	datadir=${RPM_BUILD_ROOT}%{_datadir}/awk
 
@@ -59,13 +59,27 @@ fi
 %doc README COPYING ACKNOWLEDGMENT FUTURES INSTALL LIMITATIONS NEWS PORTS 
 %doc README_d POSIX.STD doc/gawk.ps doc/awkcard.ps
 /bin/*
-/usr/bin/*
+%{_bindir}/*
 %{_mandir}/man1/*
 %{_infodir}/gawk.info*
 %{_libexecdir}/awk
 %{_datadir}/awk
 
 %changelog
+* Fri Jun 29 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- fix path of man-pages
+
+* Mon Jun 25 2001 Than Ngo <than@redhat.com> 3.1.0-1
+- update to 3.1.0
+- remove a uneeded patch
+- adapt a patch for 3.1.0
+
+* Fri Jun  1 2001 Preston Brown <pbrown@redhat.com>
+- newer version of the mktemp patch from Solar Designer <solar@openwall.com>
+
+* Fri May 11 2001 Preston Brown <pbrown@redhat.com> 3.0.6-2
+- use mktemp in igawk shell script, not shell pid variable
+
 * Wed Aug 16 2000 Florian La Roche <Florian.LaRoche@redhat.com>
 - update to 3.06
 
