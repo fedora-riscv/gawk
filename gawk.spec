@@ -1,12 +1,13 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.0
-Release: 2
+Release: 3
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch0: gawk-3.1.0-newsecurity.patch
+Patch1: gawk-3.1.0-shutup.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -22,6 +23,7 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q -b 1
 %patch0 -p1 -b .mktemp
+%patch1 -p1
 
 %build
 %configure
@@ -66,6 +68,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Jul 31 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- do not warn about unnecessary escaping
+
 * Fri Jun 29 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - fix path of man-pages
 
