@@ -1,19 +1,17 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.3
-Release: 5
+Release: 6
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
-Patch0: gawk-3.1.0-newsecurity.patch
-Patch1: gawk-3.1.0-shutup.patch
-Patch2: gawk-3.1.1-ngroups.patch
 Patch3: gawk-3.1.3-fix1.patch
 Patch4: gawk-3.1.3-fix2.patch
 Patch5: gawk-3.1.3-fix3.patch
 Patch6: gawk-3.1.3-fix4.patch
 Patch7: gawk-3.1.3-fix5.patch
+Patch8: gawk-3.1.3-getpgrp_void.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -28,14 +26,12 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q -b 1
-#%patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
-%patch3 -p1
-%patch4 -p0
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+%patch3 -p1 -b .fix1
+%patch4 -p0 -b .fix2
+%patch5 -p1 -b .fix3
+%patch6 -p1 -b .fix4
+%patch7 -p1 -b .fix5
+%patch8 -p1 -b .getpgrp_void
 
 %build
 %configure
@@ -84,6 +80,10 @@ fi
 %{_datadir}
 
 %changelog
+* Mon Jan 26 2004 Thomas Woerner <twoerner@redhat.com> 3.1.3-6
+- fixed getpgrp_void problem (#114246)
+- removed old patches
+
 * Fri Jan 09 2004 Florian La Roche <Florian.LaRoche@redhat.de>
 - add a "make check"
 
