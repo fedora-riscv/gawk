@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.3
-Release: 6
+Release: 7
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -80,6 +80,9 @@ fi
 %{_datadir}
 
 %changelog
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Mon Jan 26 2004 Thomas Woerner <twoerner@redhat.com> 3.1.3-6
 - fixed getpgrp_void problem (#114246)
 - removed old patches
