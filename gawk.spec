@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.3
-Release: 3
+Release: 5
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -29,7 +29,7 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q -b 1
 #%patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 #%patch2 -p1
 %patch3 -p1
 %patch4 -p0
@@ -40,6 +40,7 @@ considered to be a standard Linux tool for processing text.
 %build
 %configure
 make
+make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -83,6 +84,12 @@ fi
 %{_datadir}
 
 %changelog
+* Fri Jan 09 2004 Florian La Roche <Florian.LaRoche@redhat.de>
+- add a "make check"
+
+* Mon Dec 08 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- disabled "shutup" patch to warn about wrong awk scripts again
+
 * Mon Sep 22 2003 Florian La Roche <Florian.LaRoche@redhat.de>
 - add even more patches from the mailinglist
 
