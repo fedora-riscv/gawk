@@ -1,14 +1,14 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
-Version: 3.1.0
-Release: 4
+Version: 3.1.1
+Release: 9
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch0: gawk-3.1.0-newsecurity.patch
 Patch1: gawk-3.1.0-shutup.patch
-Patch2: gawk-3.1.0-hex.patch
+Patch2: gawk-3.1.1-ngroups.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -25,7 +25,7 @@ considered to be a standard Linux tool for processing text.
 %setup -q -b 1
 %patch0 -p1 -b .mktemp
 %patch1 -p1
-%patch2 -p0
+%patch2 -p1
 
 %build
 %configure
@@ -37,15 +37,16 @@ rm -rf $RPM_BUILD_ROOT
 	libexecdir=${RPM_BUILD_ROOT}%{_libexecdir}/awk \
 	datadir=${RPM_BUILD_ROOT}%{_datadir}/awk
 
-( cd $RPM_BUILD_ROOT
-  rm -f .%{_infodir}/dir
-  gzip -9nf .%{_infodir}/gawk.info*
-  mkdir -p .%{_prefix}/bin
-  ln -sf gawk.1.gz .%{_mandir}/man1/awk.1.gz
-  cd bin
-  ln -sf ../../bin/gawk ../usr/bin/awk
-  ln -sf ../../bin/gawk ../usr/bin/gawk
-)
+mkdir -p $RPM_BUILD_ROOT%{_bindir}
+ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
+ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/awk
+ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/gawk
+rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version}
+
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+mv -f $RPM_BUILD_ROOT%{_datadir}/awk/locale $RPM_BUILD_ROOT%{_datadir}/locale
+
+%find_lang %name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,16 +61,46 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc README COPYING ACKNOWLEDGMENT FUTURES INSTALL LIMITATIONS NEWS PORTS 
+%doc README COPYING FUTURES INSTALL LIMITATIONS NEWS
 %doc README_d POSIX.STD doc/gawk.ps doc/awkcard.ps
 /bin/*
 %{_bindir}/*
 %{_mandir}/man1/*
 %{_infodir}/gawk.info*
 %{_libexecdir}/awk
-%{_datadir}/awk
+%{_datadir}
 
 %changelog
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Mon Dec 02 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- add find_lang to specfile
+
+* Wed Nov 20 2002 Elliot Lee <sopwith@redhat.com> 3.1.1-7
+- Add gawk-3.1.1-ngroups.patch, because NGROUPS_MAX comes from 
+sys/param.h, and awk.h changes behaviour depending on whether NGROUPS_MAX 
+is defined or not. (For ppc64)
+
+* Wed Nov 06 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- remove /usr/share/info/dir
+
+* Sun Nov 03 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- ugly fix to get locale files into the right location #74360
+
+* Sun Aug 11 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- simplify install part of spec file
+- do not package /bin/gawk-<version>  anymore
+
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Thu May 09 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- update to 3.1.1
+
 * Sun Mar 17 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - add patch from #61316 to ignore wrong hex numbers and treat them as text
 
