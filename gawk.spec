@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.4
-Release: 5
+Release: 6
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -11,6 +11,9 @@ Patch2: gawk-3.1.4-dfacache.patch
 Patch3: gawk-3.1.4-flonum.patch
 Patch4: gawk-3.1.4-nextc.patch
 Patch5: gawk-3.1.4-uplow.patch
+# 160421 - crash when using non-decimal data in command line parameters
+Patch6: gawk-3.1.4-locale.patch
+
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -30,6 +33,7 @@ considered to be a standard Linux tool for processing text.
 %patch3 -p1 -b .flonum
 %patch4 -p1 -b .nextc
 %patch5 -p1 -b .uplow
+%patch6 -p1 -b .locale
 
 %build
 %configure
@@ -78,6 +82,9 @@ fi
 %{_datadir}
 
 %changelog
+* Wed Jun 15 2005 Karel Zak <kzak@redhat.com> 3.1.4-6
+- fix #160421 - crash when using non-decimal data in command line parameters
+
 * Wed Mar 02 2005 Karsten Hopp <karsten@redhat.de> 3.1.4-5
 - rebuild with gcc-4
 
@@ -199,7 +206,7 @@ is defined or not. (For ppc64)
 * Wed Aug 16 2000 Florian La Roche <Florian.LaRoche@redhat.com>
 - update to 3.06
 
-* Tue Aug 15 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Tue Aug 15 2000 Trond Eivind Glomsrod <teg@redhat.com>
 - /usr/bin/gawk can't point at gawk - infinite symlink
 - /usr/bin/awk can't point at gawk - infinite symlink
 
