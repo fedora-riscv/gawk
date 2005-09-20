@@ -71,7 +71,8 @@ fi
 
 %changelog
 * Tue Sep 20 2005 Karel Zak <kzak@redhat.com> 3.1.5-2
-- spec file cleanup
+- fix #167181 - gawk owns /usr/share
+- fix #160634 - should exclude dirs in spec file
 
 * Tue Sep 20 2005 Karel Zak <kzak@redhat.com> 3.1.5-1
 - new upstream version
