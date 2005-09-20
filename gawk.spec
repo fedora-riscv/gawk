@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 1
+Release: 2
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -31,8 +31,8 @@ make check
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall bindir=${RPM_BUILD_ROOT}/bin \
-	libexecdir=${RPM_BUILD_ROOT}%{_libexecdir}/awk \
-	datadir=${RPM_BUILD_ROOT}%{_datadir}/awk
+	libexecdir=${RPM_BUILD_ROOT}%{_libexecdir} \
+	datadir=${RPM_BUILD_ROOT}%{_datadir}
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
@@ -41,7 +41,6 @@ ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/gawk
 rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version}
 
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
-mv -f $RPM_BUILD_ROOT%{_datadir}/awk/locale $RPM_BUILD_ROOT%{_datadir}/locale
 
 %find_lang %name
 
@@ -60,16 +59,20 @@ fi
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README COPYING FUTURES INSTALL LIMITATIONS NEWS
+%doc README COPYING FUTURES LIMITATIONS NEWS
 %doc README_d POSIX.STD doc/gawk.ps doc/awkcard.ps
 /bin/*
 %{_bindir}/*
 %{_mandir}/man1/*
 %{_infodir}/gawk.info*
+%{_infodir}/gawkinet.info*
 %{_libexecdir}/awk
-%{_datadir}
+%{_datadir}/awk
 
 %changelog
+* Tue Sep 20 2005 Karel Zak <kzak@redhat.com> 3.1.5-2
+- spec file cleanup
+
 * Tue Sep 20 2005 Karel Zak <kzak@redhat.com> 3.1.5-1
 - new upstream version
 
