@@ -1,19 +1,12 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
-Version: 3.1.4
-Release: 6
+Version: 3.1.5
+Release: 1
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch1: gawk-3.1.3-getpgrp_void.patch
-Patch2: gawk-3.1.4-dfacache.patch
-Patch3: gawk-3.1.4-flonum.patch
-Patch4: gawk-3.1.4-nextc.patch
-Patch5: gawk-3.1.4-uplow.patch
-# 160421 - crash when using non-decimal data in command line parameters
-Patch6: gawk-3.1.4-locale.patch
-
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -29,11 +22,6 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q -b 1
 %patch1 -p1 -b .getpgrp_void
-%patch2 -p1 -b .dfacache
-%patch3 -p1 -b .flonum
-%patch4 -p1 -b .nextc
-%patch5 -p1 -b .uplow
-%patch6 -p1 -b .locale
 
 %build
 %configure
@@ -82,6 +70,9 @@ fi
 %{_datadir}
 
 %changelog
+* Tue Sep 20 2005 Karel Zak <kzak@redhat.com> 3.1.5-1
+- new upstream version
+
 * Wed Jun 15 2005 Karel Zak <kzak@redhat.com> 3.1.4-6
 - fix #160421 - crash when using non-decimal data in command line parameters
 
