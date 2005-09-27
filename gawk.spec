@@ -1,12 +1,13 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 2
+Release: 3
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
 Patch1: gawk-3.1.3-getpgrp_void.patch
+Patch2: gawk-3.1.5-free.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
@@ -22,6 +23,7 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q -b 1
 %patch1 -p1 -b .getpgrp_void
+%patch2 -p1 -b .free
 
 %build
 %configure
@@ -70,6 +72,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Sep 27 2005 Karel Zak <kzak@redhat.com> 3.1.5-3
+- fix #169374 - Invalid Free (patch by Aharon Robbins)
+
 * Tue Sep 20 2005 Karel Zak <kzak@redhat.com> 3.1.5-2
 - fix #167181 - gawk owns /usr/share
 - fix #160634 - should exclude dirs in spec file
