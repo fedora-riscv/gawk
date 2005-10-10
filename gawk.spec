@@ -1,16 +1,18 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 3
+Release: 4
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
-Patch1: gawk-3.1.3-getpgrp_void.patch
-Patch2: gawk-3.1.5-free.patch
 Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
+
+Patch1: gawk-3.1.3-getpgrp_void.patch
+Patch2: gawk-3.1.5-free.patch
+Patch3: gawk-3.1.5-fieldwidths.patch
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -24,6 +26,7 @@ considered to be a standard Linux tool for processing text.
 %setup -q -b 1
 %patch1 -p1 -b .getpgrp_void
 %patch2 -p1 -b .free
+%patch3 -p1 -b .fieldwidths
 
 %build
 %configure
@@ -72,6 +75,10 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Sun Oct  9 2005 Karel Zak <kzak@redhat.com> 3.1.5-4
+- fix off-by-one error in assignment of sentinel value at 
+  end of FIELDWIDTHS array. (patch by - upstream - Aharon Robbins)
+
 * Tue Sep 27 2005 Karel Zak <kzak@redhat.com> 3.1.5-3
 - fix #169374 - Invalid Free (patch by Aharon Robbins)
 
