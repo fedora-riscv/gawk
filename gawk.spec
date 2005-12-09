@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 4
+Release: 4.1
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -75,6 +75,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Sun Oct  9 2005 Karel Zak <kzak@redhat.com> 3.1.5-4
 - fix off-by-one error in assignment of sentinel value at 
   end of FIELDWIDTHS array. (patch by - upstream - Aharon Robbins)
