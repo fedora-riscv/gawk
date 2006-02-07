@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 5
+Release: 5.1
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -79,6 +79,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 3.1.5-5.1
+- rebuilt for new gcc4.1 snapshot and glibc changes
+
 * Thu Dec 22 2005 Karel Zak <kzak@redhat.com> 3.1.5-5
 - fix "gawk -v BINMODE=1" (patch by Aharon Robbins)
 - fix conversion from large number to string (patch by Aharon Robbins)
