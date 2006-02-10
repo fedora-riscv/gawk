@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 5.1
+Release: 6
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -15,6 +15,7 @@ Patch2: gawk-3.1.5-free.patch
 Patch3: gawk-3.1.5-fieldwidths.patch
 Patch4:	gawk-3.1.5-binmode.patch
 Patch5: gawk-3.1.5-num2str.patch
+Patch6: gawk-3.1.5-wconcat.patch
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -31,6 +32,7 @@ considered to be a standard Linux tool for processing text.
 %patch3 -p1 -b .fieldwidths
 %patch4 -p1 -b .binmode
 %patch5 -p1 -b .num2str
+%patch6 -p1 -b .wconcat
 
 %build
 %configure
@@ -79,6 +81,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Fri Feb 10 2006 Karel Zak <kzak@redhat.com> 3.1.5-6
+- fix wide characters concatenation
+
 * Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 3.1.5-5.1
 - rebuilt for new gcc4.1 snapshot and glibc changes
 
