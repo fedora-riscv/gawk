@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 6
+Release: 6.1
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -81,6 +81,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 3.1.5-6.1
+- bump again for double-long bug on ppc(64)
+
 * Fri Feb 10 2006 Karel Zak <kzak@redhat.com> 3.1.5-6
 - fix wide characters concatenation
 
