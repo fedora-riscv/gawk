@@ -10,6 +10,9 @@ Prereq: /sbin/install-info
 Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
 
+BuildRequires: flex
+BuildRequires: bison
+
 Patch1: gawk-3.1.3-getpgrp_void.patch
 Patch2: gawk-3.1.5-free.patch
 Patch3: gawk-3.1.5-fieldwidths.patch
