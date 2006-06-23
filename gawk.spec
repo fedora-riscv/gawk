@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 7
+Release: 8
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -16,7 +16,10 @@ Patch3: gawk-3.1.5-fieldwidths.patch
 Patch4:	gawk-3.1.5-binmode.patch
 Patch5: gawk-3.1.5-num2str.patch
 Patch6: gawk-3.1.5-wconcat.patch
+#  fix internal names like /dev/user, /dev/pid, as well as /dev/fd/N
 Patch7: gawk-3.1.5-internal.patch
+# 194214 - gawk coredumps on syntax error
+Patch8: gawk-3.1.5-syntaxerror.patch
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -35,6 +38,7 @@ considered to be a standard Linux tool for processing text.
 %patch5 -p1 -b .num2str
 %patch6 -p1 -b .wconcat
 %patch7 -p1 -b .internal
+%patch8 -p1 -b .syntaxerror
 
 %build
 %configure
@@ -83,6 +87,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Fri Jun 23 2006 Karel Zak <kzak@redhat.com> 3.1.5-8
+- fix #194214 - gawk coredumps on syntax error (patch by Aharon Robbins)
+
 * Wed Jun 21 2006 Karel Zak <kzak@redhat.com> 3.1.5-7
 - fix internal names like /dev/user, /dev/pid, or /dev/fd/N (patch by Aharon Robbins)
 
