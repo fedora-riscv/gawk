@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 8
+Release: 9
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -23,6 +23,8 @@ Patch6: gawk-3.1.5-wconcat.patch
 Patch7: gawk-3.1.5-internal.patch
 # 194214 - gawk coredumps on syntax error
 Patch8: gawk-3.1.5-syntaxerror.patch
+# http://lists.gnu.org/archive/html/bug-gnu-utils/2006-07/msg00004.html
+Patch9: gawk-3.1.5-numflags.patch
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -90,6 +92,10 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Mon Jul 10 2006 Karel Zak <kzak@redhat.com> 3.1.5-9
+- fix numeric conversion problem (patch by Aharon Robbins)
+  http://lists.gnu.org/archive/html/bug-gnu-utils/2006-07/msg00004.html
+
 * Fri Jun 23 2006 Karel Zak <kzak@redhat.com> 3.1.5-8
 - fix #194214 - gawk coredumps on syntax error (patch by Aharon Robbins)
 
