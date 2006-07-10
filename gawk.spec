@@ -44,6 +44,7 @@ considered to be a standard Linux tool for processing text.
 %patch6 -p1 -b .wconcat
 %patch7 -p1 -b .internal
 %patch8 -p1 -b .syntaxerror
+%patch9 -p1 -b .numflag
 
 %build
 %configure
