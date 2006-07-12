@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 9
+Release: 9.1
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -93,6 +93,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 3.1.5-9.1
+- rebuild
+
 * Mon Jul 10 2006 Karel Zak <kzak@redhat.com> 3.1.5-9
 - fix numeric conversion problem (patch by Aharon Robbins)
   http://lists.gnu.org/archive/html/bug-gnu-utils/2006-07/msg00004.html
