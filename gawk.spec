@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 9.1
+Release: 10
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -25,6 +25,8 @@ Patch7: gawk-3.1.5-internal.patch
 Patch8: gawk-3.1.5-syntaxerror.patch
 # http://lists.gnu.org/archive/html/bug-gnu-utils/2006-07/msg00004.html
 Patch9: gawk-3.1.5-numflags.patch
+# IPv6 support
+Patch10: gawk-3.1.5-ipv6.patch
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -45,6 +47,7 @@ considered to be a standard Linux tool for processing text.
 %patch7 -p1 -b .internal
 %patch8 -p1 -b .syntaxerror
 %patch9 -p1 -b .numflag
+%patch10 -p1 -b .ipv6
 
 %build
 %configure
@@ -93,6 +96,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Jul 18 2006 Karel Zak <kzak@redhat.com> 3.1.5-10
+- add IPv6 support (patch be Jan Pazdziora)
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 3.1.5-9.1
 - rebuild
 
