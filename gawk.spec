@@ -1,14 +1,16 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 10
+Release: 11
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
-Prereq: /sbin/install-info
-Requires: /bin/mktemp
 Buildroot: %{_tmppath}/%{name}-root
+
+Requires(post): /sbin/install-info
+Requires(preun): /sbin/install-info
+Requires: /bin/mktemp
 
 BuildRequires: flex
 BuildRequires: bison
@@ -96,6 +98,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Wed Jul 19 2006 Karel Zak <kzak@redhat.com> 3.1.5-11
+- spec file cleanup
+
 * Tue Jul 18 2006 Karel Zak <kzak@redhat.com> 3.1.5-10
 - add IPv6 support (patch be Jan Pazdziora)
 
