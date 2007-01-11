@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility.
 Name: gawk
 Version: 3.1.5
-Release: 11
+Release: 12%{dist}
 License: GPL
 Group: Applications/Text
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
@@ -29,6 +29,8 @@ Patch8: gawk-3.1.5-syntaxerror.patch
 Patch9: gawk-3.1.5-numflags.patch
 # IPv6 support
 Patch10: gawk-3.1.5-ipv6.patch
+# 222080: double free or corruption
+Patch11: gawk-3.1.5-freewstr.patch
 
 %description
 The gawk packages contains the GNU version of awk, a text processing
@@ -50,6 +52,7 @@ considered to be a standard Linux tool for processing text.
 %patch8 -p1 -b .syntaxerror
 %patch9 -p1 -b .numflag
 %patch10 -p1 -b .ipv6
+%patch11 -p1 -b .freewstr
 
 %build
 %configure
@@ -98,6 +101,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Thu Jan 11 2007 Karel Zak <kzak@redhat.com> 3.1.5-12
+- fix #222080 double free or corruption
+
 * Wed Jul 19 2006 Karel Zak <kzak@redhat.com> 3.1.5-11
 - spec file cleanup
 
