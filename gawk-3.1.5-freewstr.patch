@@ -1,5 +1,17 @@
+--- gawk-3.1.5/field.c.freewstr	2007-01-12 12:48:50.000000000 +0100
++++ gawk-3.1.5/field.c	2007-01-12 12:50:27.000000000 +0100
+@@ -211,6 +211,9 @@
+ 
+ 			n->stptr = cops;
+ 			unref(fields_arr[i]);
++			n->wstptr = NULL;
++			n->wstlen = 0;
++			n->flags &= ~WSTRCUR;
+ 			fields_arr[i] = n;
+ 		}
+ 		cops += fields_arr[i]->stlen + ofslen;
 --- gawk-3.1.5/builtin.c.freewstr	2005-07-26 20:07:43.000000000 +0200
-+++ gawk-3.1.5/builtin.c	2007-01-08 13:29:45.000000000 +0100
++++ gawk-3.1.5/builtin.c	2007-01-12 12:48:51.000000000 +0100
 @@ -2089,9 +2089,9 @@
  			}
  
@@ -30,7 +42,7 @@
  	if (mb_indices != NULL)
  		free(mb_indices);
 --- gawk-3.1.5/awk.h.freewstr	2005-07-26 20:07:43.000000000 +0200
-+++ gawk-3.1.5/awk.h	2007-01-08 12:31:26.000000000 +0100
++++ gawk-3.1.5/awk.h	2007-01-12 12:48:51.000000000 +0100
 @@ -1166,6 +1166,9 @@
  #define force_wstring(n)	str2wstr(n, NULL)
  extern const wchar_t *wstrstr P((const wchar_t *haystack, size_t hs_len, const wchar_t *needle, size_t needle_len));
@@ -41,8 +53,8 @@
  #endif
  /* re.c */
  extern Regexp *make_regexp P((const char *s, size_t len, int ignorecase, int dfa));
---- gawk-3.1.5/node.c.freewstr	2007-01-08 12:31:26.000000000 +0100
-+++ gawk-3.1.5/node.c	2007-01-08 12:41:48.000000000 +0100
+--- gawk-3.1.5/node.c.freewstr	2007-01-12 12:48:50.000000000 +0100
++++ gawk-3.1.5/node.c	2007-01-12 12:48:51.000000000 +0100
 @@ -218,15 +218,7 @@
  no_malloc:
  	s->stref = 1;
@@ -174,8 +186,8 @@
  	}
  
  	return NULL;
---- gawk-3.1.5/eval.c.freewstr	2007-01-08 12:31:26.000000000 +0100
-+++ gawk-3.1.5/eval.c	2007-01-08 12:31:26.000000000 +0100
+--- gawk-3.1.5/eval.c.freewstr	2007-01-12 12:48:50.000000000 +0100
++++ gawk-3.1.5/eval.c	2007-01-12 12:48:51.000000000 +0100
 @@ -1176,13 +1176,7 @@
  			memcpy(l->stptr + l->stlen, r->stptr, r->stlen);
  			l->stlen += r->stlen;
