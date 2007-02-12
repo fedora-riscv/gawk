@@ -1,12 +1,12 @@
-Summary: The GNU version of the awk text processing utility.
+Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.5
-Release: 14%{?dist}
+Release: 15%{?dist}
 License: GPL
 Group: Applications/Text
+URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
-Source1: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}-ps.tar.gz
-Buildroot: %{_tmppath}/%{name}-root
+Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
@@ -18,7 +18,7 @@ BuildRequires: bison
 Patch1: gawk-3.1.3-getpgrp_void.patch
 Patch2: gawk-3.1.5-free.patch
 Patch3: gawk-3.1.5-fieldwidths.patch
-Patch4:	gawk-3.1.5-binmode.patch
+Patch4: gawk-3.1.5-binmode.patch
 Patch5: gawk-3.1.5-num2str.patch
 Patch6: gawk-3.1.5-wconcat.patch
 #  fix internal names like /dev/user, /dev/pid, as well as /dev/fd/N
@@ -43,7 +43,7 @@ Install the gawk package if you need a text processing utility. Gawk is
 considered to be a standard Linux tool for processing text.
 
 %prep
-%setup -q -b 1
+%setup -q
 %patch1 -p1 -b .getpgrp_void
 %patch2 -p1 -b .free
 %patch3 -p1 -b .fieldwidths
@@ -58,15 +58,15 @@ considered to be a standard Linux tool for processing text.
 %patch12 -p1 -b .mbread
 
 %build
-%configure
-make
+%configure --bindir=/bin
+make %{?_smp_mflags}
+
+%check
 make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall bindir=${RPM_BUILD_ROOT}/bin \
-	libexecdir=${RPM_BUILD_ROOT}%{_libexecdir} \
-	datadir=${RPM_BUILD_ROOT}%{_datadir}
+make install DESTDIR=${RPM_BUILD_ROOT}
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
@@ -83,18 +83,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ -f %{_infodir}/gawk.info.gz ]; then
-    /sbin/install-info %{_infodir}/gawk.info.gz %{_infodir}/dir
+    /sbin/install-info %{_infodir}/gawk.info.gz %{_infodir}/dir || :
 fi
 
 %preun
 if [ $1 = 0 -a -f %{_infodir}/gawk.info.gz ]; then
-   /sbin/install-info --delete %{_infodir}/gawk.info.gz %{_infodir}/dir
+    /sbin/install-info --delete %{_infodir}/gawk.info.gz %{_infodir}/dir || :
 fi
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc README COPYING FUTURES LIMITATIONS NEWS
-%doc README_d POSIX.STD doc/gawk.ps doc/awkcard.ps
+%doc README_d/README.multibyte README_d/README.tests POSIX.STD
 /bin/*
 %{_bindir}/*
 %{_mandir}/man1/*
@@ -104,6 +104,10 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Mon Feb 12 2007 Karel Zak <kzak@redhat.com> 3.1.5-15
+- fix #225777 - clean up spec file according to Fedora Merge Review
+  suggestions (thanks to Dan Horak and Patrice Dumas)
+
 * Mon Jan 15 2007 Karel Zak <kzak@redhat.com> 3.1.5-14
 - sync with double-free upstream fixes
 - fix #222531: Replace dist by ?dist
