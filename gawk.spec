@@ -64,7 +64,7 @@ make %{?_smp_mflags}
 %check
 make check
 
-%install -p
+%install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=${RPM_BUILD_ROOT}
 
