@@ -35,7 +35,7 @@ Patch11: gawk-3.1.5-freewstr.patch
 Patch12: gawk-3.1.5-mbread.patch
 
 %description
-The gawk packages contains the GNU version of awk, a text processing
+The gawk package contains the GNU version of awk, a text processing
 utility. Awk interprets a special-purpose programming language to do
 quick and easy text pattern matching and reformatting jobs.
 
