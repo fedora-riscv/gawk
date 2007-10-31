@@ -1,0 +1,18 @@
+Written-by: Ulrich Drepper
+
+Index: builtin.c
+===================================================================
+RCS file: /cvsroot/gawk/gawk-stable/builtin.c,v
+retrieving revision 1.17
+retrieving revision 1.18
+diff -u -r1.17 -r1.18
+--- builtin.c	11 Aug 2007 19:49:23 -0000	1.17
++++ builtin.c	22 Sep 2007 21:34:34 -0000	1.18
+@@ -724,6 +724,7 @@
+ 		have_prec = FALSE;
+ 		signchar = FALSE;
+ 		zero_flag = FALSE;
++		quote_flag = FALSE;
+ 		lj = alt = big = bigbig = small = FALSE;
+ 		fill = sp;
+ 		cp = cend;

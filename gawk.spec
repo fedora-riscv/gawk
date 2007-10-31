@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.5
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: GPL
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
@@ -12,8 +12,12 @@ Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Requires: /bin/mktemp
 
-BuildRequires: flex
+# needed for gawk-3.1.5-syntaxerror.patch:
 BuildRequires: bison
+# Seems currently unused:
+#BuildRequires: flex
+# for patch14:
+BuildRequires: autoconf automake
 
 Patch1: gawk-3.1.3-getpgrp_void.patch
 Patch2: gawk-3.1.5-free.patch
@@ -33,6 +37,9 @@ Patch10: gawk-3.1.5-ipv6.patch
 Patch11: gawk-3.1.5-freewstr.patch
 # upstream patch - Invalid read of size 4
 Patch12: gawk-3.1.5-mbread.patch
+# bug #299551 - quote flag is sticky
+Patch13: gawk-3.1.5-quote-sticky.patch
+Patch14: gawk-3.1.5-test-lc_num1.patch
 
 %description
 The gawk package contains the GNU version of awk, a text processing
@@ -56,8 +63,12 @@ considered to be a standard Linux tool for processing text.
 %patch10 -p1 -b .ipv6
 %patch11 -p1 -b .freewstr
 %patch12 -p1 -b .mbread
+%patch13 -p0 -b .uli
+%patch14 -p0 -b .ulitest
 
 %build
+# for patch14:
+autoreconf
 %configure --bindir=/bin
 make %{?_smp_mflags}
 
@@ -73,6 +84,8 @@ ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
 ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/awk
 ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/gawk
 rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version}
+# FIXME: enable this at a suitable point of time:
+#mv $RPM_BUILD_ROOT/bin/{p,i}gawk $RPM_BUILD_ROOT%{_bindir}
 
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
@@ -104,6 +117,14 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Wed Oct 31 2007 Stepan Kasal <skasal@redhat.com> - 3.1.5-16
+- Add gawk-3.1.5-quote-sticky.patch
+- Resolves: #299551
+- Add gawk-3.1.5-test-lc_num1.patch, a test for that bug.
+- BuldRequire autoconf and automake, for the test patch.
+- Add coment explaining why bison is buildrequired.
+- Remove BuildRequire: flex.
+
 * Mon Feb 12 2007 Karel Zak <kzak@redhat.com> 3.1.5-15
 - fix #225777 - clean up spec file according to Fedora Merge Review
   suggestions (thanks to Dan Horak and Patrice Dumas)
