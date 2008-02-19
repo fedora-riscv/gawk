@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.5
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: GPL
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
@@ -117,6 +117,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 3.1.5-17
+- Autorebuild for GCC 4.3
+
 * Wed Oct 31 2007 Stepan Kasal <skasal@redhat.com> - 3.1.5-16
 - Add gawk-3.1.5-quote-sticky.patch
 - Resolves: #299551
