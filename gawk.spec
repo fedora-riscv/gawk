@@ -1,44 +1,25 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 3.1.5
-Release: 18%{?dist}
+Version: 3.1.6
+Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
-Source0: ftp://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
-Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
+BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Requires: /bin/mktemp
 
 # needed for gawk-3.1.5-syntaxerror.patch:
-BuildRequires: bison
+#BuildRequires: bison
 # Seems currently unused:
 #BuildRequires: flex
-# for patch14:
+# for patch14
 BuildRequires: autoconf automake
 
-Patch1: gawk-3.1.3-getpgrp_void.patch
-Patch2: gawk-3.1.5-free.patch
-Patch3: gawk-3.1.5-fieldwidths.patch
-Patch4: gawk-3.1.5-binmode.patch
-Patch5: gawk-3.1.5-num2str.patch
-Patch6: gawk-3.1.5-wconcat.patch
-#  fix internal names like /dev/user, /dev/pid, as well as /dev/fd/N
-Patch7: gawk-3.1.5-internal.patch
-# 194214 - gawk coredumps on syntax error
-Patch8: gawk-3.1.5-syntaxerror.patch
-# http://lists.gnu.org/archive/html/bug-gnu-utils/2006-07/msg00004.html
-Patch9: gawk-3.1.5-numflags.patch
-# IPv6 support
-Patch10: gawk-3.1.5-ipv6.patch
-# 222080 - double free or corruption
-Patch11: gawk-3.1.5-freewstr.patch
-# upstream patch - Invalid read of size 4
-Patch12: gawk-3.1.5-mbread.patch
-# bug #299551 - quote flag is sticky
-Patch13: gawk-3.1.5-quote-sticky.patch
+# test for #299551, submit!
 Patch14: gawk-3.1.5-test-lc_num1.patch
 
 %description
@@ -51,19 +32,6 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
-%patch1 -p1 -b .getpgrp_void
-%patch2 -p1 -b .free
-%patch3 -p1 -b .fieldwidths
-%patch4 -p1 -b .binmode
-%patch5 -p1 -b .num2str
-%patch6 -p1 -b .wconcat
-%patch7 -p1 -b .internal
-%patch8 -p1 -b .syntaxerror
-%patch9 -p1 -b .numflag
-%patch10 -p1 -b .ipv6
-%patch11 -p1 -b .freewstr
-%patch12 -p1 -b .mbread
-%patch13 -p0 -b .uli
 %patch14 -p0 -b .ulitest
 
 %build
@@ -83,11 +51,8 @@ mkdir -p $RPM_BUILD_ROOT%{_bindir}
 ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
 ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/awk
 ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/gawk
-rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version}
-# FIXME: enable this at a suitable point of time:
-#mv $RPM_BUILD_ROOT/bin/{p,i}gawk $RPM_BUILD_ROOT%{_bindir}
-
-rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+mv $RPM_BUILD_ROOT/bin/{p,i}gawk $RPM_BUILD_ROOT%{_bindir}
+rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version} $RPM_BUILD_ROOT%{_infodir}/dir
 
 %find_lang %name
 
@@ -117,6 +82,12 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Nov 25 2008 Stepan Kasal <skasal@redhat.com> - 3.1.6-1
+- new upstream version
+- drop Patch1: gawk-3.1.3-getpgrp_void.patch, it seems to be a workaround
+  for a bug in gcc that seemed to exist at Fedora Core 1 times, see #114246
+- drop patches 2-13, they have been integrated upstream
+
 * Mon Jul 21 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 3.1.5-18
 - fix license tag
 
