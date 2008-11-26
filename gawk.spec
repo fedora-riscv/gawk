@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
@@ -12,14 +12,11 @@ Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Requires: /bin/mktemp
 
-# needed for gawk-3.1.5-syntaxerror.patch:
-#BuildRequires: bison
-# Seems currently unused:
-#BuildRequires: flex
 # for patch14
 BuildRequires: autoconf automake
 
-# test for #299551, submit!
+# test for #299551, submitted:
+# http://lists.gnu.org/archive/html/bug-gnu-utils/2008-11/msg00044.html
 Patch14: gawk-3.1.5-test-lc_num1.patch
 
 %description
@@ -82,6 +79,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Wed Nov 26 2008 Stepan Kasal <skasal@redhat.com> - 3.1.6-2
+- test-lc_num1.patch submitted upstream, link added
+
 * Tue Nov 25 2008 Stepan Kasal <skasal@redhat.com> - 3.1.6-1
 - new upstream version
 - drop Patch1: gawk-3.1.3-getpgrp_void.patch, it seems to be a workaround
