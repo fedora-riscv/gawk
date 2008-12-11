@@ -1,6 +1,6 @@
 --- test/Makefile.am.ulitest	2005-07-26 20:07:43.000000000 +0200
 +++ test/Makefile.am	2007-09-27 10:48:51.000000000 +0200
-@@ -273,6 +273,8 @@
+@@ -300,6 +300,8 @@
  	intprec.ok \
  	iobug1.awk \
  	iobug1.ok \
@@ -9,16 +9,16 @@
  	leaddig.awk \
  	leaddig.ok \
  	leadnl.awk \
-@@ -588,7 +590,7 @@
+@@ -658,7 +660,7 @@
  	fordel forsimp fsbs fsspcoln fsrs fstabplus funsemnl funsmnam funstack getline \
  	getline2 getline3 getlnbuf getnr2tb getnr2tm gsubasgn gsubtest \
- 	gsubtst2 gsubtst3 gsubtst4 gsubtst5 hex hsprint inputred intest \
+ 	gsubtst2 gsubtst3 gsubtst4 gsubtst5 hex hsprint inputred intest intformat \
 -	intprec iobug1 leaddig leadnl litoct longsub longwrds manglprm math membug1 \
 +	intprec iobug1 lc_num1 leaddig leadnl litoct longsub longwrds manglprm math membug1 \
- 	messages minusstr mmap8k nasty nasty2 negexp nested nfldstr \
- 	nfneg nfset nlfldsep nlinstr nlstrina noeffect nofmtch noloop1 \
+ 	messages minusstr mmap8k mtchi18n nasty nasty2 negexp nested nfldstr \
+ 	nfneg nfset nlfldsep nlinstr nlstrina noeffect nofile nofmtch noloop1 \
  	noloop2 nonl noparms nors nulrsend numindex numsubstr octsub ofmt \
-@@ -678,6 +680,12 @@
+@@ -755,6 +757,12 @@
  extend-msg-end:
  	@echo "======== Done with gawk extension tests ========"
  
@@ -44,7 +44,7 @@
 +}
 --- test/Gentests.ulitest	2005-05-11 17:28:17.000000000 +0200
 +++ test/Gentests	2007-09-27 10:47:26.000000000 +0200
-@@ -36,7 +36,7 @@
+@@ -45,7 +45,7 @@
  	next
  }
  
