@@ -1,19 +1,21 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.6
-Release: 2%{?dist}
-License: GPLv2+
+Release: 3%{?dist}
+License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
+Source1: http://ftp.gnu.org/gnu/libsigsegv/libsigsegv-2.6.tar.gz
+Patch0: gawk-stable-tree.patch
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Requires: /bin/mktemp
 
-# for patch14
-BuildRequires: autoconf automake
+# patching the sources for these tools
+BuildRequires: autoconf automake gettext-devel texinfo bison
 
 # test for #299551, submitted:
 # http://lists.gnu.org/archive/html/bug-gnu-utils/2008-11/msg00044.html
@@ -28,11 +30,16 @@ Install the gawk package if you need a text processing utility. Gawk is
 considered to be a standard Linux tool for processing text.
 
 %prep
-%setup -q
-%patch14 -p0 -b .ulitest
+%setup -q -a 1
+mv libsigsegv-2.6 libsigsegv
+# do not install with gawk
+echo 'install:'  >>libsigsegv/Makefile.am
+%patch0
+# we have patched the sources for these:
+rm awkgram.c doc/*.info
+%patch14 -b .ulitest
 
 %build
-# for patch14:
 autoreconf
 %configure --bindir=/bin
 make %{?_smp_mflags}
@@ -79,6 +86,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Thu Dec 11 2008 Stepan Kasal <skasal@redhat.com> - 3.1.6-3
+- grab the current stable tree from savannah
+
 * Wed Nov 26 2008 Stepan Kasal <skasal@redhat.com> - 3.1.6-2
 - test-lc_num1.patch submitted upstream, link added
 
