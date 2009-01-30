@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.6
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
@@ -17,10 +17,6 @@ Requires: /bin/mktemp
 # patching the sources for these tools
 BuildRequires: autoconf automake gettext-devel texinfo bison
 
-# test for #299551, submitted:
-# http://lists.gnu.org/archive/html/bug-gnu-utils/2008-11/msg00044.html
-Patch14: gawk-3.1.5-test-lc_num1.patch
-
 %description
 The gawk package contains the GNU version of awk, a text processing
 utility. Awk interprets a special-purpose programming language to do
@@ -34,10 +30,9 @@ considered to be a standard Linux tool for processing text.
 mv libsigsegv-2.6 libsigsegv
 # do not install with gawk
 echo 'install:'  >>libsigsegv/Makefile.am
-%patch0
+%patch0 -p1
 # we have patched the sources for these:
 rm awkgram.c doc/*.info
-%patch14 -b .ulitest
 
 %build
 autoreconf
@@ -56,7 +51,8 @@ ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
 ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/awk
 ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/gawk
 mv $RPM_BUILD_ROOT/bin/{p,i}gawk $RPM_BUILD_ROOT%{_bindir}
-rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version} $RPM_BUILD_ROOT%{_infodir}/dir
+# remove %{version}* , when we are building a snapshot...
+rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version}* $RPM_BUILD_ROOT%{_infodir}/dir
 
 %find_lang %name
 
@@ -77,8 +73,8 @@ fi
 %defattr(-,root,root,-)
 %doc README COPYING FUTURES LIMITATIONS NEWS
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
-/bin/*
-%{_bindir}/*
+/bin/*awk
+%{_bindir}/*awk
 %{_mandir}/man1/*
 %{_infodir}/gawk.info*
 %{_infodir}/gawkinet.info*
@@ -86,6 +82,12 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Fri Jan 30 2009 Stepan Kasal <skasal@redhat.com> - 3.1.6-4
+- remove the versioned binaries even if the version is modified by the
+  snapshot patch, modify the file list to check this (#476166)
+- update the snapshot patch, dropping the upstreamed
+  gawk-3.1.5-test-lc_num1.patch
+
 * Thu Dec 11 2008 Stepan Kasal <skasal@redhat.com> - 3.1.6-3
 - grab the current stable tree from savannah
 
