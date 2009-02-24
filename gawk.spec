@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.6
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
@@ -82,6 +82,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Fri Jan 30 2009 Stepan Kasal <skasal@redhat.com> - 3.1.6-4
 - remove the versioned binaries even if the version is modified by the
   snapshot patch, modify the file list to check this (#476166)
