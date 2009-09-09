@@ -1,21 +1,15 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 3.1.6
-Release: 6%{?dist}
+Version: 3.1.7
+Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
-Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
-Source1: http://ftp.gnu.org/gnu/libsigsegv/libsigsegv-2.6.tar.gz
-Patch0: gawk-stable-tree.patch
+Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
-Requires: /bin/mktemp
-
-# patching the sources for these tools
-BuildRequires: autoconf automake gettext-devel texinfo bison
 
 %description
 The gawk package contains the GNU version of awk, a text processing
@@ -26,21 +20,14 @@ Install the gawk package if you need a text processing utility. Gawk is
 considered to be a standard Linux tool for processing text.
 
 %prep
-%setup -q -a 1
-mv libsigsegv-2.6 libsigsegv
-# do not install with gawk
-echo 'install:'  >>libsigsegv/Makefile.am
-%patch0 -p1
-# we have patched the sources for these:
-rm awkgram.c doc/*.info
+%setup -q
 
 %build
-autoreconf
-%configure --bindir=/bin
+%configure --bindir=/bin --disable-libsigsegv
 make %{?_smp_mflags}
 
 %check
-make check
+make check diffout
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -82,10 +69,14 @@ fi
 %{_datadir}/awk
 
 %changelog
-* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.6-6
+* Wed Sep  9 2009 Stepan Kasal <skasal@redhat.com> - 3.1.7-1
+- new upstream version
+- disable libsigsegv
+
+* Fri Jul 24 2009 Fed Rel Eng <rel-eng@lists.fedoraproject.org> - 3.1.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
-* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.6-5
+* Tue Feb 24 2009 Fed Rel Eng <rel-eng@lists.fedoraproject.org> - 3.1.6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
 * Fri Jan 30 2009 Stepan Kasal <skasal@redhat.com> - 3.1.6-4
