@@ -15,9 +15,9 @@
 +				else if (have_prec)
 +					nchars_needed = prec;
 +				else
-+					nchars_needed = arg-&gt;stlen;
++					nchars_needed = arg->stlen;
 +
-+				copy_count = mbc_byte_count(arg-&gt;stptr, nchars_needed);
++				copy_count = mbc_byte_count(arg->stptr, nchars_needed);
  			}
  			bchunk(cp, copy_count);
  			while (fw > prec) {
