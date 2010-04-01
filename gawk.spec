@@ -1,11 +1,14 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.7
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
+# Patch from Arnold, the upstream maintainer:
+Patch0: gawk-posix-mode-argv0.patch
+Patch1: gawk-3.1.7-prec-utf8.patch
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
@@ -21,6 +24,8 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
+%patch0
+%patch1 -p1 -b .prec-utf8
 
 %build
 %configure --bindir=/bin --disable-libsigsegv
@@ -69,6 +74,12 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Thu Apr 01 2010 Jan Zeleny <jzeleny@redhat.com> - 3.1.7-3
+- fix issue with utf8 precision recognition (#513234)
+
+* Thu Oct  8 2009 Stepan Kasal <skasal@redhat.com> - 3.1.7-2
+- in posix mode, make ARGV[0] = argv[0] (#525381)
+
 * Wed Sep  9 2009 Stepan Kasal <skasal@redhat.com> - 3.1.7-1
 - new upstream version
 - disable libsigsegv
