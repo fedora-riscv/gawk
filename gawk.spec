@@ -12,6 +12,7 @@ BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
+BuildRequires: byacc
 
 %description
 The gawk package contains the GNU version of awk, a text processing
