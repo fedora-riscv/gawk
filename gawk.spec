@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 3.1.7
-Release: 3%{?dist}
+Version: 3.1.8
+Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
@@ -9,6 +9,8 @@ Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 # Patch from Arnold, the upstream maintainer:
 Patch0: gawk-posix-mode-argv0.patch
 Patch1: gawk-3.1.7-prec-utf8.patch
+Patch2: gawk-3.1.7-max-int.patch
+Patch3: gawk-3.1.7-syntax.patch
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
@@ -26,6 +28,8 @@ considered to be a standard Linux tool for processing text.
 %setup -q
 %patch0
 %patch1 -p1 -b .prec-utf8
+%patch2 -p1 -b .max-int
+%patch3 -p1 -b .syntaxt
 
 %build
 %configure --bindir=/bin --disable-libsigsegv
@@ -74,6 +78,11 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Fri Jun 25 2010 Jan Zeleny <jzeleny@redhat.com> - 3.1.8-1
+- rebased to 3.1.8
+- fixed handling of extreme int values
+- fixed two syntax issues (#528623, #528625)
+
 * Thu Apr 01 2010 Jan Zeleny <jzeleny@redhat.com> - 3.1.7-3
 - fix issue with utf8 precision recognition (#513234)
 
