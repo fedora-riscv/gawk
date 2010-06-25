@@ -5,12 +5,9 @@ Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
-Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
+Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 # Patch from Arnold, the upstream maintainer:
-Patch0: gawk-posix-mode-argv0.patch
-Patch1: gawk-3.1.7-prec-utf8.patch
-Patch2: gawk-3.1.7-max-int.patch
-Patch3: gawk-3.1.7-syntax.patch
+Patch0: gawk-3.1.7-syntax.patch
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Requires(post): /sbin/install-info
@@ -26,10 +23,7 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
-%patch0
-%patch1 -p1 -b .prec-utf8
-%patch2 -p1 -b .max-int
-%patch3 -p1 -b .syntaxt
+%patch0 -p1 -b .syntax
 
 %build
 %configure --bindir=/bin --disable-libsigsegv
