@@ -16,6 +16,7 @@ Patch1: gawk-3.1.8-double-free-wstptr.patch
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
+BuildRequires: byacc
 
 %description
 The gawk package contains the GNU version of awk, a text processing
@@ -31,7 +32,7 @@ considered to be a standard Linux tool for processing text.
 %patch1 -p0 -b .double-free-wstptr
 
 %build
-%configure --bindir=/bin --disable-libsigsegv
+%configure --bindir=/bin --with-libsigsegv-prefix=no
 make %{?_smp_mflags}
 
 %check
@@ -79,6 +80,8 @@ fi
 %changelog
 * Tue Nov 02 2010 Vojtech Vitek (V-Teq) <vvitek@redhat.com> - 3.1.8-3
 - fix syntax issues #528623, #528625
+- add byacc to BuildRequires
+- follow updated libsigsegv option in configure script
 
 * Tue Nov 02 2010 Vojtech Vitek (V-Teq) <vvitek@redhat.com> - 3.1.8-2
 - fix #629196: Double free in free_wstr
