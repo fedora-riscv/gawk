@@ -1,12 +1,16 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 3.1.8
-Release: 1%{?dist}
-License: GPLv3+
+Release: 2%{?dist}
+# Most of source files are licensed under GPLv3+,
+# several files are GPL or LGPLv2.1+ licensed,
+# gettext.h is LGPL and random.c is BSD licensed
+License: GPLv3+ and GPL and LGPLv3+ and LGPL and BSD
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
-BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+# http://lists.gnu.org/archive/html/bug-gnu-utils/2010-11/msg00005.html
+Patch: gawk-3.1.8-double-free-wstptr.patch
 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
@@ -21,6 +25,7 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
+%patch -p0 -b .double-free-wstptr
 
 %build
 %configure --bindir=/bin --disable-libsigsegv
@@ -69,6 +74,11 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Tue Nov 02 2010 Vojtech Vitek (V-Teq) <vvitek@redhat.com> - 3.1.8-2
+- fix #629196: Double free in free_wstr
+- fix license tag, add description
+- remove BuildRoot tag
+
 * Fri May  7 2010 Stepan Kasal <kasal@ucw.cz> - 3.1.8-1
 - new upstream version
 - drop upstreamed patches
