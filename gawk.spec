@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 3.1.8
-Release: 4%{?dist}
+Version: 4.0.0
+Release: 1%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -9,11 +9,6 @@ License: GPLv3+ and GPL and LGPLv3+ and LGPL and BSD
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
-# Patch from Arnold, the upstream maintainer:
-Patch0: gawk-3.1.8-syntax.patch
-# http://lists.gnu.org/archive/html/bug-gnu-utils/2010-11/msg00005.html
-Patch1: gawk-3.1.8-double-free-wstptr.patch
-
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 BuildRequires: byacc
@@ -28,8 +23,6 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
-%patch0 -p1 -b .syntax
-%patch1 -p0 -b .double-free-wstptr
 
 %build
 %configure --bindir=/bin --with-libsigsegv-prefix=no
@@ -78,6 +71,10 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Thu Jul 14 2011 Vojtech Vitek (V-Teq) <vvitek@redhat.com> - 4.0.0-1
+- Update to upstream 4.0.0
+  Resolves: #717885
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
