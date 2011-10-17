@@ -72,8 +72,8 @@ fi
 
 %changelog
 * Thu Jul 14 2011 Vojtech Vitek (V-Teq) <vvitek@redhat.com> - 4.0.0-1
-- Update to upstream 4.0.0
-  Resolves: #717885
+- Remove gawk-3.1.8-syntax.patch, gawk-3.1.8-double-free-wstptr.patch
+- Update to upstream 4.0.0 (#717885)
 
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
