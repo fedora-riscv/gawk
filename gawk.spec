@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -11,6 +11,9 @@ URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
+#Conflicts: filesystem < 3
+Provides: /bin/awk
+Provides: /bin/gawk
 BuildRequires: byacc
 
 %description
@@ -25,7 +28,7 @@ considered to be a standard Linux tool for processing text.
 %setup -q
 
 %build
-%configure --bindir=/bin --with-libsigsegv-prefix=no
+%configure --with-libsigsegv-prefix=no
 make %{?_smp_mflags}
 
 %check
@@ -37,11 +40,9 @@ make install DESTDIR=${RPM_BUILD_ROOT}
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
-ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/awk
-ln -sf ../../bin/gawk $RPM_BUILD_ROOT%{_bindir}/gawk
-mv $RPM_BUILD_ROOT/bin/{p,i}gawk $RPM_BUILD_ROOT%{_bindir}
+ln -sf gawk $RPM_BUILD_ROOT%{_bindir}/awk
 # remove %{version}* , when we are building a snapshot...
-rm -f $RPM_BUILD_ROOT/bin/{,p}gawk-%{version}* $RPM_BUILD_ROOT%{_infodir}/dir
+rm -f $RPM_BUILD_ROOT/%{_bindir}/{,p}gawk-%{version}* $RPM_BUILD_ROOT%{_infodir}/dir
 
 %find_lang %name
 
@@ -62,7 +63,6 @@ fi
 %defattr(-,root,root,-)
 %doc README COPYING FUTURES LIMITATIONS NEWS
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
-/bin/*awk
 %{_bindir}/*awk
 %{_mandir}/man1/*
 %{_infodir}/gawk.info*
@@ -71,6 +71,10 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 4.0.0-3
+- install everything in /usr
+  https://fedoraproject.org/wiki/Features/UsrMove
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
