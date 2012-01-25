@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.0.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -11,7 +11,7 @@ URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
-#Conflicts: filesystem < 3
+Conflicts: filesystem < 3
 Provides: /bin/awk
 Provides: /bin/gawk
 BuildRequires: byacc
@@ -71,6 +71,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 4.0.0-4
+- add filesystem guard
+
 * Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 4.0.0-3
 - install everything in /usr
   https://fedoraproject.org/wiki/Features/UsrMove
