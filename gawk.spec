@@ -1,6 +1,6 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 4.0.0
+Version: 4.0.1
 Release: 1%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
@@ -8,7 +8,7 @@ Release: 1%{?dist}
 License: GPLv3+ and GPL and LGPLv3+ and LGPL and BSD
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
-Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.bz2
+Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.gz
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 BuildRequires: byacc
@@ -71,6 +71,12 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Thu Jun 07 2012 Martin Bříza <mbriza@redhat.com> - 4.0.1-1
+- Update to upstream 4.0.1 (#808005)
+- Corrected Source0 link to .tar.gz extension as not all releases are available as .tar.bz2
+- Resolves #724817 - gawk-4.0.0 regression in '\' escape handling in gsub()
+- Resolves #820550 - gawk: getline in BEGIN skips 2 lines
+ 
 * Thu Jul 14 2011 Vojtech Vitek (V-Teq) <vvitek@redhat.com> - 4.0.0-1
 - Remove gawk-3.1.8-syntax.patch, gawk-3.1.8-double-free-wstptr.patch
 - Update to upstream 4.0.0 (#717885)
