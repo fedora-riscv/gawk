@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -71,6 +71,9 @@ fi
 %{_datadir}/awk
 
 %changelog
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Thu Jun 07 2012 Martin Bříza <mbriza@redhat.com> -  4.0.1-1
 - Update to upstream 4.0.1 (#808005)
 - Corrected Source0 link to .tar.gz extension as not all releases are available as .tar.bz2
