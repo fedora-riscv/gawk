@@ -65,15 +65,19 @@ fi
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
 %{_bindir}/*awk
 %{_mandir}/man1/*
+%{_mandir}/man3/*
 %{_infodir}/gawk.info*
 %{_infodir}/gawkinet.info*
 %{_libexecdir}/awk
 %{_datadir}/awk
+%{_includedir}/gawkapi.h
+%{_libdir}/gawk/*
 
 %changelog
 * Mon May 13 2013 Fridolin Pokorny <fpokorny@redhat.com> -  4.1.0-1
 - Update to upstream 4.1.0 (#962109)
 - Removed FUTURES and LIMITATIONS
+- Added unpackaged files
 
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
