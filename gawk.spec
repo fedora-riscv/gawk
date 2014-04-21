@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 4.1.0
-Release: 3%{?dist}
+Version: 4.1.1
+Release: 1%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -74,6 +74,9 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Mon Apr 21 2014 Ondrej Vasik <ovasik@redhat.com> - 4.1.1-1
+- Update to upstream 4.1.1 (#1087242)
+
 * Sat Jan 25 2014 Ville Skyttä <ville.skytta@iki.fi> - 4.1.0-3
 - Own the %%{_libdir}/gawk dir.
 - Use xz compressed upstream tarball.
