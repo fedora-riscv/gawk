@@ -1,0 +1,24 @@
+diff -urNp gawk-4.1.1-bak/extension/Makefile.am gawk-4.1.1/extension/Makefile.am
+--- gawk-4.1.1-bak/extension/Makefile.am	2014-02-20 19:42:25.000000000 +0100
++++ gawk-4.1.1/extension/Makefile.am	2014-04-21 11:56:49.227755196 +0200
+@@ -100,7 +100,7 @@ testext_la_LIBADD     = $(MY_LIBS)
+ 
+ install-data-hook:
+ 	for i in $(pkgextension_LTLIBRARIES) ; do \
+-		$(RM) $(pkgextensiondir)/$$i ; \
++		$(RM) ${DESTDIR}$(pkgextensiondir)/$$i ; \
+ 	done
+ 
+ # Keep the uninstall check working:
+diff -urNp gawk-4.1.1-bak/extension/Makefile.in gawk-4.1.1/extension/Makefile.in
+--- gawk-4.1.1-bak/extension/Makefile.in	2014-04-08 18:13:03.000000000 +0200
++++ gawk-4.1.1/extension/Makefile.in	2014-04-21 11:57:54.884756674 +0200
+@@ -1231,7 +1231,7 @@ uninstall-man: uninstall-man3
+ 
+ install-data-hook:
+ 	for i in $(pkgextension_LTLIBRARIES) ; do \
+-		$(RM) $(pkgextensiondir)/$$i ; \
++		$(RM) $(DESTDIR)$(pkgextensiondir)/$$i ; \
+ 	done
+ 
+ # Keep the uninstall check working:

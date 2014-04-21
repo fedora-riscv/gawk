@@ -9,6 +9,7 @@ License: GPLv3+ and GPL and LGPLv3+ and LGPL and BSD
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
+Patch1: gawk-4.1.1-build-baddest.patch
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Conflicts: filesystem < 3
@@ -26,6 +27,7 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
+%patch1 -p1 -b .baddest
 
 %build
 %configure --with-libsigsegv-prefix=no
