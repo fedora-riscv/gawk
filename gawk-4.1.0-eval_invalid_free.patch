@@ -1,0 +1,113 @@
+From d2ea8575a493954c2bb6a7a7a1b87d7fdfe7574a Mon Sep 17 00:00:00 2001
+From: jchaloup <jchaloup@redhat.com>
+Date: Mon, 12 May 2014 12:35:10 +0200
+Subject: [PATCH] eval invalid free
+
+---
+ awk.h     |  1 +
+ awkgram.c |  9 +++++++++
+ awkgram.y |  9 +++++++++
+ debug.c   | 21 +++++++++++++++++----
+ 4 files changed, 36 insertions(+), 4 deletions(-)
+
+diff --git a/awk.h b/awk.h
+index 989f451..e46b881 100644
+--- a/awk.h
++++ b/awk.h
+@@ -1368,6 +1368,7 @@ extern NODE *stopme(int nargs);
+ extern void shadow_funcs(void);
+ extern int check_special(const char *name);
+ extern SRCFILE *add_srcfile(int stype, char *src, SRCFILE *curr, bool *already_included, int *errcode);
++extern void free_srcfile(SRCFILE *thisfile);
+ extern void register_deferred_variable(const char *name, NODE *(*load_func)(void));
+ extern int files_are_same(char *path, SRCFILE *src);
+ extern void valinfo(NODE *n, Func_print print_func, FILE *fp);
+diff --git a/awkgram.c b/awkgram.c
+index 10fd421..b7eaf86 100644
+--- a/awkgram.c
++++ b/awkgram.c
+@@ -4857,6 +4857,15 @@ parse_program(INSTRUCTION **pcode)
+ 	return (ret || errcount);
+ }
+ 
++/* free_srcfile --- free a SRCFILE struct */
++
++void
++free_srcfile(SRCFILE *thisfile)
++{
++	efree(thisfile->src);
++	efree(thisfile);
++}
++
+ /* do_add_srcfile --- add one item to srcfiles */
+ 
+ static SRCFILE *
+diff --git a/awkgram.y b/awkgram.y
+index 6864722..f67547d 100644
+--- a/awkgram.y
++++ b/awkgram.y
+@@ -2309,6 +2309,15 @@ parse_program(INSTRUCTION **pcode)
+ 	return (ret || errcount);
+ }
+ 
++/* free_srcfile --- free a SRCFILE struct */
++
++void
++free_srcfile(SRCFILE *thisfile)
++{
++	efree(thisfile->src);
++	efree(thisfile);
++}
++
+ /* do_add_srcfile --- add one item to srcfiles */
+ 
+ static SRCFILE *
+diff --git a/debug.c b/debug.c
+index d60164a..e7b3261 100644
+--- a/debug.c
++++ b/debug.c
+@@ -5433,7 +5433,8 @@ do_eval(CMDARG *arg, int cmd ATTRIBUTE_UNUSED)
+ 	int ecount = 0, pcount = 0;
+ 	int ret;
+ 	int save_flags = do_flags;
+-	
++        SRCFILE *the_source;
++
+ 	if (prog_running) {
+ 		this_frame = find_frame(0);
+ 		this_func = this_frame->func_node;
+@@ -5443,7 +5444,7 @@ do_eval(CMDARG *arg, int cmd ATTRIBUTE_UNUSED)
+ 	ctxt = new_context();
+ 	ctxt->install_func = append_symbol;	/* keep track of newly installed globals */
+ 	push_context(ctxt);
+-	(void) add_srcfile(SRC_CMDLINE, arg->a_string, srcfiles, NULL, NULL);
++	the_source = add_srcfile(SRC_CMDLINE, arg->a_string, srcfiles, NULL, NULL);
+ 	do_flags = false;
+ 	ret = parse_program(&code);
+ 	do_flags = save_flags;
+@@ -5550,8 +5551,20 @@ do_eval(CMDARG *arg, int cmd ATTRIBUTE_UNUSED)
+ 
+ 	pop_context();	/* switch to prev context */
+ 	free_context(ctxt, (ret_val != NULL));   /* free all instructions and optionally symbols */
+-	if (ret_val != NULL)
+-		destroy_symbol(f);	/* destroy "@eval" */
++
++	if (ret_val != NULL) {
++		/*
++		 * Remove @eval from FUNCTAB, so that above code
++		 * will work the next time around.
++		 */
++		NODE *s = make_string("@eval", 5);
++
++		(void) assoc_remove(func_table, s);
++		unref(s);
++	}
++
++        free_srcfile(the_source);
++
+ 	return false;
+ }
+ 
+-- 
+1.9.0
+
