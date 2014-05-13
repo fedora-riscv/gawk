@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.1.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -10,6 +10,7 @@ Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 Patch1: gawk-4.1.1-build-baddest.patch
+Patch2: gawk-4.1.1-eval_invalid_free.patch 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Conflicts: filesystem < 3
@@ -28,6 +29,7 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q
 %patch1 -p1 -b .baddest
+%patch2 -p1 -b .eval_invalid_free
 
 %build
 %configure --with-libsigsegv-prefix=no
@@ -76,6 +78,10 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Tue May 13 2014 jchaloup <jchaloup@redhat.com> - 4.1.1-2
+- resolves: #1089073
+  eval invalid free
+
 * Mon Apr 21 2014 Ondrej Vasik <ovasik@redhat.com> - 4.1.1-1
 - Update to upstream 4.1.1 (#1087242)
 
