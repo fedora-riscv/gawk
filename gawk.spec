@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.1.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -9,6 +9,9 @@ License: GPLv3+ and GPL and LGPLv3+ and LGPL and BSD
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
+# taken from random.c, 2014-07-12
+Source1: BSD.txt
+Source2: https://www.gnu.org/licenses/lgpl-2.1.txt
 Patch1: gawk-4.1.1-build-baddest.patch
 Patch2: gawk-4.1.1-eval_invalid_free.patch 
 Requires(post): /sbin/install-info
@@ -28,6 +31,7 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
+cp -a %{SOURCE1} %{SOURCE2} .
 %patch1 -p1 -b .baddest
 %patch2 -p1 -b .eval_invalid_free
 
@@ -65,7 +69,9 @@ fi
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README COPYING NEWS
+%{!?_licensedir:%global license %%doc}
+%license COPYING BSD.txt lgpl-2.1.txt
+%doc README NEWS
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
 %{_bindir}/*awk
 %{_mandir}/man1/*
@@ -78,6 +84,9 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Sat Jul 12 2014 Tom Callaway <spot@fedoraproject.org> - 4.1.1-4
+- fix license handling
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
