@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.1.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -15,7 +15,7 @@ Requires(preun): /sbin/install-info
 Conflicts: filesystem < 3
 Provides: /bin/awk
 Provides: /bin/gawk
-BuildRequires: byacc
+BuildRequires: bison
 
 %description
 The gawk package contains the GNU version of awk, a text processing
@@ -34,7 +34,7 @@ considered to be a standard Linux tool for processing text.
 make %{?_smp_mflags}
 
 %check
-make check diffout
+make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -76,6 +76,11 @@ fi
 %{_libdir}/gawk/*
 
 %changelog
+* Fri Jan 02 2015 jchaloup <jchaloup@redhat.com> - 4.1.0-4
+- Change build dependency to bison, fix make check
+  resolves: #1176993
+  resolves: #1177001
+
 * Tue May 13 2014 jchaloup <jchaloup@redhat.com> - 4.1.0-3
 - resolves: #1089073
   eval invalid free
