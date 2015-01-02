@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.1.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -19,7 +19,9 @@ Requires(preun): /sbin/install-info
 Conflicts: filesystem < 3
 Provides: /bin/awk
 Provides: /bin/gawk
-BuildRequires: byacc
+# if the awkgram.y or command.y are changed, they have to be regenerated,
+# then uncomment this BuildRequires
+#BuildRequires: bison
 
 %description
 The gawk package contains the GNU version of awk, a text processing
@@ -40,7 +42,7 @@ cp -a %{SOURCE1} %{SOURCE2} .
 make %{?_smp_mflags}
 
 %check
-make check diffout
+make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -84,6 +86,11 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Fri Jan 02 2015 jchaloup <jchaloup@redhat.com> - 4.1.1-6
+- No need for build dependency on byacc/bison, fix make check
+  resolves: #1176993
+  resolves: #1177001
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.1.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
