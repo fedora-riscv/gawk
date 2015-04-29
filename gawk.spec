@@ -1,7 +1,7 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 4.1.1
-Release: 7%{?dist}
+Version: 4.1.2
+Release: 1%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
 # gettext.h is LGPL and random.c is BSD licensed
@@ -12,8 +12,6 @@ Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 # taken from random.c, 2014-07-12
 Source1: BSD.txt
 Source2: https://www.gnu.org/licenses/lgpl-2.1.txt
-Patch1: gawk-4.1.1-build-baddest.patch
-Patch2: gawk-4.1.1-eval_invalid_free.patch 
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Conflicts: filesystem < 3
@@ -34,8 +32,6 @@ considered to be a standard Linux tool for processing text.
 %prep
 %setup -q
 cp -a %{SOURCE1} %{SOURCE2} .
-%patch1 -p1 -b .baddest
-%patch2 -p1 -b .eval_invalid_free
 
 %build
 %configure --with-libsigsegv-prefix=no
@@ -86,6 +82,10 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Wed Apr 29 2015 jchaloup <jchaloup@redhat.com> - 4.1.2-1
+- Update to upstream 4.1.2
+  resolves: #1217027
+
 * Sat Feb 21 2015 Till Maas <opensource@till.name> - 4.1.1-7
 - Rebuilt for Fedora 23 Change
   https://fedoraproject.org/wiki/Changes/Harden_all_packages_with_position-independent_code
