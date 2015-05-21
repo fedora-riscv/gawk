@@ -1,6 +1,6 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
-Version: 4.1.2
+Version: 4.1.3
 Release: 1%{?dist}
 # Most of source files are licensed under GPLv3+,
 # several files are GPL or LGPLv2.1+ licensed,
@@ -82,6 +82,10 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Thu May 21 2015 jchaloup <jchaloup@redhat.com> - 4.1.3-1
+- Update to upstream 4.1.3
+  resolves: #1223594
+
 * Wed Apr 29 2015 jchaloup <jchaloup@redhat.com> - 4.1.2-1
 - Update to upstream 4.1.2
   resolves: #1217027
