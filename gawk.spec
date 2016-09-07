@@ -51,7 +51,6 @@ make %{?_smp_mflags}
 make check
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=${RPM_BUILD_ROOT}
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
@@ -61,9 +60,6 @@ ln -sf gawk $RPM_BUILD_ROOT%{_bindir}/awk
 rm -f $RPM_BUILD_ROOT/%{_bindir}/{,p}gawk-%{version}* $RPM_BUILD_ROOT%{_infodir}/dir
 
 %find_lang %name
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ -f %{_infodir}/gawk.info.gz ]; then
