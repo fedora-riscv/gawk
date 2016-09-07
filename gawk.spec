@@ -71,7 +71,6 @@ if [ $1 = 0 -a -f %{_infodir}/gawk.info.gz ]; then
 fi
 
 %files -f %{name}.lang
-%{!?_licensedir:%global license %%doc}
 %license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
 %doc README NEWS
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
