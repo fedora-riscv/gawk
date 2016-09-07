@@ -50,13 +50,13 @@ make %{?_smp_mflags}
 make check
 
 %install
-make install DESTDIR=${RPM_BUILD_ROOT}
+make install DESTDIR=%{buildroot}
 
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
-ln -sf gawk.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/awk.1.gz
-ln -sf gawk $RPM_BUILD_ROOT%{_bindir}/awk
+mkdir -p %{buildroot}%{_bindir}
+ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
+ln -sf gawk %{buildroot}%{_bindir}/awk
 # remove %{version}* , when we are building a snapshot...
-rm -f $RPM_BUILD_ROOT/%{_bindir}/{,p}gawk-%{version}* $RPM_BUILD_ROOT%{_infodir}/dir
+rm -f %{buildroot}/%{_bindir}/{,p}gawk-%{version}* %{buildroot}%{_infodir}/dir
 
 %find_lang %name
 
