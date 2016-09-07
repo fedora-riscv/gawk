@@ -1,17 +1,25 @@
 Summary: The GNU version of the awk text processing utility
 Name: gawk
 Version: 4.1.3
-Release: 3%{?dist}
-# Most of source files are licensed under GPLv3+,
-# several files are GPL or LGPLv2.1+ licensed,
-# gettext.h is LGPL and random.c is BSD licensed
-License: GPLv3+ and GPL and LGPLv3+ and LGPL and BSD
+Release: 4%{?dist}
+# There are more licenses used inside the gawk source tarball from upstream than
+# listed below, however, some of those files with different licenses are not
+# used for compiling the resulting binaries, nor they are additionally shipped
+# inside the final package or its subpackages.
+#
+# To get latest version of currently used licenses in gawk run: licensecheck
+# We assume that files that do not explicitly state their copyright are licensed
+# under GPLv3+ as per COPYING file inside root directory of source code.
+#
+# NOTE: Upstream has confirmed that the licenses used here are correct:
+#       http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
+License: GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
-# taken from random.c, 2014-07-12
-Source1: BSD.txt
-Source2: https://www.gnu.org/licenses/lgpl-2.1.txt
+Source1: LICENSE.GPLv2
+Source2: LICENSE.LGPLv2
+Source3: LICENSE.BSD
 Requires: libsigsegv
 BuildRequires: libsigsegv-devel
 Requires(post): /sbin/install-info
@@ -33,7 +41,7 @@ considered to be a standard Linux tool for processing text.
 
 %prep
 %setup -q
-cp -a %{SOURCE1} %{SOURCE2} .
+cp -a %{SOURCE1} %{SOURCE2} %{SOURCE3} .
 
 %build
 %configure
@@ -70,7 +78,7 @@ fi
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %{!?_licensedir:%global license %%doc}
-%license COPYING BSD.txt lgpl-2.1.txt
+%license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
 %doc README NEWS
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
 %{_bindir}/*awk
@@ -84,6 +92,10 @@ fi
 %{_libdir}/gawk
 
 %changelog
+* Tue Sep  6 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-4
+- License field updated to more correctly reflect the actual licenses used,
+  other licensing issues fixed as well
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
