@@ -23,7 +23,7 @@ Requires: libsigsegv
 BuildRequires: libsigsegv-devel
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
-Conflicts: filesystem < 3
+Requires: filesystem >= 3
 Provides: /bin/awk
 Provides: /bin/gawk
 # if the awkgram.y or command.y are changed, they have to be regenerated,
