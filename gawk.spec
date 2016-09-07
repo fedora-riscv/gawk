@@ -135,7 +135,7 @@ fi
 * Mon Apr 21 2014 Ondrej Vasik <ovasik@redhat.com> - 4.1.1-1
 - Update to upstream 4.1.1 (#1087242)
 
-* Sat Jan 25 2014 Ville Skyttä <ville.skytta@iki.fi> - 4.1.0-3
+* Sat Jan 25 2014 Ville Skytta <ville.skytta@iki.fi> - 4.1.0-3
 - Own the %%{_libdir}/gawk dir.
 - Use xz compressed upstream tarball.
 
@@ -156,7 +156,7 @@ fi
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
-* Thu Jun 07 2012 Martin Bříza <mbriza@redhat.com> -  4.0.1-1
+* Thu Jun 07 2012 Martin Briza <mbriza@redhat.com> -  4.0.1-1
 - Update to upstream 4.0.1 (#808005)
 - Corrected Source0 link to .tar.gz extension as not all releases are available as .tar.bz2
 - Resolves #724817 - gawk-4.0.0 regression in '\' escape handling in gsub()
