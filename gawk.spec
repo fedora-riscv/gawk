@@ -12,6 +12,8 @@ Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 # taken from random.c, 2014-07-12
 Source1: BSD.txt
 Source2: https://www.gnu.org/licenses/lgpl-2.1.txt
+Requires: libsigsegv
+BuildRequires: libsigsegv-devel
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
 Conflicts: filesystem < 3
@@ -34,7 +36,7 @@ considered to be a standard Linux tool for processing text.
 cp -a %{SOURCE1} %{SOURCE2} .
 
 %build
-%configure --with-libsigsegv-prefix=no
+%configure
 make %{?_smp_mflags}
 
 %check
