@@ -14,7 +14,6 @@ Release: 4%{?dist}
 # NOTE: Upstream has confirmed that the licenses used here are correct:
 #       http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
 License: GPLv3+ and GPLv2+ and LGPLv2+ and BSD
-Group: Applications/Text
 URL: http://www.gnu.org/software/gawk/gawk.html
 Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 Source1: LICENSE.GPLv2
