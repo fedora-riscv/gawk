@@ -1,53 +1,127 @@
-Summary: The GNU version of the awk text processing utility
-Name: gawk
-Version: 4.1.3
-Release: 4%{?dist}
-# There are more licenses used inside the gawk source tarball from upstream than
-# listed below, however, some of those files with different licenses are not
-# used for compiling the resulting binaries, nor they are additionally shipped
-# inside the final package or its subpackages.
+Name:             gawk
+Summary:          The GNU version of the AWK text processing utility
+Version:          4.1.3
+Release:          4%{?dist}
+
+# LICENSE NOTE: There are more licenses used inside the gawk source tarball from
+# ------------- upstream than  listed below, however, some of those files with
+#               different licenses are not used for compiling the resulting
+#               binaries, nor they are additionally shipped inside the final
+#               package or its subpackages.
 #
 # To get latest version of currently used licenses in gawk run: licensecheck
 # We assume that files that do not explicitly state their copyright are licensed
 # under GPLv3+ as per COPYING file inside root directory of source code.
 #
-# NOTE: Upstream has confirmed that the licenses used here are correct:
-#       http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
+# UPDATE: Upstream has confirmed that the licenses used here are correct:
+#         http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
 License: GPLv3+ and GPLv2+ and LGPLv2+ and BSD
-URL: http://www.gnu.org/software/gawk/gawk.html
-Source0: http://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
-Source1: LICENSE.GPLv2
-Source2: LICENSE.LGPLv2
-Source3: LICENSE.BSD
-Requires: libsigsegv
-BuildRequires: libsigsegv-devel
-Requires(post): /sbin/install-info
-Requires(preun): /sbin/install-info
-Requires: filesystem >= 3
-Provides: /bin/awk
-Provides: /bin/gawk
-# if the awkgram.y or command.y are changed, they have to be regenerated,
-# then uncomment this BuildRequires
-#BuildRequires: bison
+
+URL:              https://www.gnu.org/software/gawk/
+Source0:          https://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
+
+# Additional license files that we have to ship with the package because does
+# not include them inside their source tarball and never will (see mail above):
+Source1:          LICENSE.GPLv2
+Source2:          LICENSE.LGPLv2
+Source3:          LICENSE.BSD
+
+Provides:         /bin/awk
+Provides:         /bin/gawk
+
+# Safeguard to allow this package to be installed only on UsrMove enabled
+# filesystem. More info: https://fedoraproject.org/wiki/Features/UsrMove
+Requires:         filesystem >= 3
+Requires:         libsigsegv
+Requires(post):   info
+Requires(preun):  info
+BuildRequires:    libsigsegv-devel
+
+# NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
+#       changes the timestamp of awkgram.y, and it becomes newer than awkgram.c,
+#       same applies for command.y), the 'make' command will automatically try
+#       to rebuild the affected files. In that case we need to include the
+#       BuildRequires line below.
+#
+#       If possible, we should create a macro that will specifically check for
+#       these conditions and add the BuildRequires if necessary.
+#
+# INFO: Upstream explicitly wishes that we do not use 'yacc' instead of bison.
+#       For more info, see: https://bugzilla.redhat.com/show_bug.cgi?id=1176993
+#BuildRequires:    bison
+
+# === GLOBAL MACROS ===========================================================
+
+# According to Fedora Package Guidelines, it is advised that packages that can
+# process untrusted input are build with position-idenpendent code (PIC).
+#
+# Koji should override the compilation flags and add the -fPIC or -fPIE flags by
+# default. This is here just in case this wouldn't happen for some reason.
+# For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
+%global _hardened_build 1
+
+# =============================================================================
+
+# NOTE: 'autosetup' macro (below) uses 'git' for applying the patches:
+#       ->> All the patches should be provided in 'git format-patch' format.
+#       ->> Auxiliary repository will be created during 'fedpkg prep', you
+#           can see all the applied patches there via 'git log'.
+
+# Upstream patches -- official upstream patches released by upstream since the
+# ----------------    last rebase that are necessary for any reason:
+#Patch000: example000.patch
+
+
+# Downstream patches -- these should be always included when doing rebase:
+# ------------------
+#Patch100: example100.patch
+
+
+# Downstream patches for RHEL -- patches that we keep only in RHEL for various
+# ---------------------------    reasons, but are not enabled in Fedora:
+%if %{defined rhel} || %{defined centos}
+#Patch200: example200.patch
+%endif
+
+
+# Patches to be removed -- deprecated functionality which shall be removed at
+# ---------------------    some point in the future:
+
 
 %description
-The gawk package contains the GNU version of awk, a text processing
-utility. Awk interprets a special-purpose programming language to do
-quick and easy text pattern matching and reformatting jobs.
+The gawk package contains the GNU version of AWK text processing utility. AWK is
+a programming language designed for text processing and typically used as a data
+extraction and reporting tool.
 
-Install the gawk package if you need a text processing utility. Gawk is
-considered to be a standard Linux tool for processing text.
+The gawk utility can be used to do quick and easy text pattern matching,
+extracting or reformatting. It is considered to be a standard Linux tool for
+text processing.
 
+# === SUBPACKAGES =============================================================
+
+
+# === BUILD INSTRUCTIONS ======================================================
+
+# Call the 'autosetup' macro to prepare the environment, but do not patch the
+# source code yet -- we need to copy the LICENSE.* files into the directory:
 %prep
-%setup -q
+%autosetup -N -S git
 cp -a %{SOURCE1} %{SOURCE2} %{SOURCE3} .
+
+# Add and amend the copied files to the initial commit, patch the source code:
+git add --all --force .
+git commit --all --amend --no-edit > /dev/null
+%autopatch -p1
+
 
 %build
 %configure
 make %{?_smp_mflags}
 
+
 %check
 make check
+
 
 %install
 make install DESTDIR=%{buildroot}
@@ -55,39 +129,46 @@ make install DESTDIR=%{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
 ln -sf gawk %{buildroot}%{_bindir}/awk
-# remove %{version}* , when we are building a snapshot...
-rm -f %{buildroot}/%{_bindir}/{,p}gawk-%{version}* %{buildroot}%{_infodir}/dir
 
-%find_lang %name
+# Remove the versioned binary hardlink:
+rm -f %{buildroot}%{_bindir}/{,p}gawk-%{version}*
+rm -f %{buildroot}%{_infodir}/dir
+
+
+%find_lang %{name}
+
 
 %post
-if [ -f %{_infodir}/gawk.info.gz ]; then
-    /sbin/install-info %{_infodir}/gawk.info.gz %{_infodir}/dir || :
-fi
+/sbin/install-info %{_infodir}/%{name}.info %{_infodir}/dir || :
+
 
 %preun
-if [ $1 = 0 -a -f %{_infodir}/gawk.info.gz ]; then
-    /sbin/install-info --delete %{_infodir}/gawk.info.gz %{_infodir}/dir || :
+if [[ $1 -eq 0 ]]; then
+  /sbin/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir || :
 fi
 
+
 %files -f %{name}.lang
-%license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
-%doc README NEWS
-%doc README_d/README.multibyte README_d/README.tests POSIX.STD
-%{_bindir}/*awk
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 %{_infodir}/gawk.info*
 %{_infodir}/gawkinet.info*
+%{_libdir}/gawk
 %{_libexecdir}/awk
 %{_datadir}/awk
+%{_bindir}/*awk
 %{_includedir}/gawkapi.h
-%{_libdir}/gawk
+
+%doc README NEWS
+%doc README_d/README.multibyte README_d/README.tests POSIX.STD
+%license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
+
 
 %changelog
 * Tue Sep  6 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-4
 - License field updated to more correctly reflect the actual licenses used,
   other licensing issues fixed as well
+- Major specfile refactoring to comply with latest Fedora Packaging Guidelines
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
