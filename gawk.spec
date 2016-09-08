@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.3
-Release:          4%{?dist}
+Release:          5%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -99,6 +99,18 @@ text processing.
 
 # === SUBPACKAGES =============================================================
 
+%package devel
+Summary:          Header file for gawk extensions development
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+This subpackage provides /usr/include/gawkapi.h header file, which contains
+definitions for use by extension functions calling into gawk. For more info
+about gawk extensions, please refer to `The GNU Awk User's Guide`.
+
+However, unless you are developing an extension to gawk, you most likely do not
+need this subpackage.
+
 
 # === BUILD INSTRUCTIONS ======================================================
 
@@ -148,6 +160,8 @@ if [[ $1 -eq 0 ]]; then
 fi
 
 
+# === PACKAGING INSTRUCTIONS ==================================================
+
 %files -f %{name}.lang
 %{_mandir}/man1/*
 %{_mandir}/man3/*
@@ -157,14 +171,21 @@ fi
 %{_libexecdir}/awk
 %{_datadir}/awk
 %{_bindir}/*awk
-%{_includedir}/gawkapi.h
 
 %doc README NEWS
 %doc README_d/README.multibyte README_d/README.tests POSIX.STD
 %license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
 
 
+%files devel
+%{_includedir}/gawkapi.h
+
+# =============================================================================
+
 %changelog
+* Thu Sep  8 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-5
+- New gawk-devel subpackage created (contains gawkapi.h header file)
+
 * Tue Sep  6 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-4
 - License field updated to more correctly reflect the actual licenses used,
   other licensing issues fixed as well
