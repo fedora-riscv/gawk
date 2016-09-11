@@ -35,6 +35,7 @@ Requires:         filesystem >= 3
 Requires:         libsigsegv
 Requires(post):   info
 Requires(preun):  info
+BuildRequires:    git
 BuildRequires:    ghostscript-core
 BuildRequires:    libsigsegv-devel
 BuildRequires:    texinfo-tex
