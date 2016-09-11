@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.3
-Release:          5%{?dist}
+Release:          6%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -35,7 +35,9 @@ Requires:         filesystem >= 3
 Requires:         libsigsegv
 Requires(post):   info
 Requires(preun):  info
+BuildRequires:    ghostscript-core
 BuildRequires:    libsigsegv-devel
+BuildRequires:    texinfo-tex
 
 # NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
 #       changes the timestamp of awkgram.y, and it becomes newer than awkgram.c,
@@ -112,6 +114,21 @@ However, unless you are developing an extension to gawk, you most likely do not
 need this subpackage.
 
 
+%package doc
+Summary:          Additional documentation for gawk utility
+Requires:         %{name}% = %{version}-%{release}
+BuildArch:        noarch
+
+%description doc
+The base package of gawk comes pre-installed with `GAWK: Effective AWK
+Programming` and `TCP/IP Internetworking with gawk` user's guides, and you can
+access them via info pages.
+
+However, this way of displaying information is less convenient for printing or
+displaying images. Therefore, this doc subpackage can provide you with HTML, PDF
+and PS versions of those documents, which might be useful when you need to
+access them regularly, and/or when you do not have access to Internet.
+
 # === BUILD INSTRUCTIONS ======================================================
 
 # Call the 'autosetup' macro to prepare the environment, but do not patch the
@@ -130,6 +147,12 @@ git commit --all --amend --no-edit > /dev/null
 %configure
 make %{?_smp_mflags}
 
+# Build the documentation in PDF, postscript and HTML versions:
+make -C doc pdf
+mkdir -p html/gawk html/gawkinet
+makeinfo --html -I doc -o html/gawk     doc/gawk.texi
+makeinfo --html -I doc -o html/gawkinet doc/gawkinet.texi
+
 
 %check
 make check
@@ -146,6 +169,10 @@ ln -sf gawk %{buildroot}%{_bindir}/awk
 rm -f %{buildroot}%{_bindir}/{,p}gawk-%{version}*
 rm -f %{buildroot}%{_infodir}/dir
 
+# Install the all the documentation in the same folder - /usr/share/doc/gawk:
+mkdir -p   %{buildroot}%{_docdir}/%{name}
+cp -a html %{buildroot}%{_docdir}/%{name}
+cp -a doc/gawk.{pdf,ps} doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
 %find_lang %{name}
 
@@ -172,17 +199,28 @@ fi
 %{_datadir}/awk
 %{_bindir}/*awk
 
-%doc README NEWS
-%doc README_d/README.multibyte README_d/README.tests POSIX.STD
+%doc NEWS README POSIX.STD README_d/README.multibyte
 %license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
 
 
 %files devel
 %{_includedir}/gawkapi.h
 
+
+%files doc
+# NOTE: For some reason, adding all files in one line causes RPM build to fail.
+%doc %{_docdir}/%{name}/gawk.pdf
+%doc %{_docdir}/%{name}/gawkinet.pdf
+%doc %{_docdir}/%{name}/gawk.ps
+%doc %{_docdir}/%{name}/gawkinet.ps
+%doc %{_docdir}/%{name}/html
+
 # =============================================================================
 
 %changelog
+* Sun Sep 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-6
+- New gawk-doc subpackage created (contains HTML, PDF and PS documentation)
+
 * Thu Sep  8 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-5
 - New gawk-devel subpackage created (contains gawkapi.h header file)
 
