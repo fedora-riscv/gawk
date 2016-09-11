@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.3
-Release:          6%{?dist}
+Release:          7%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -117,7 +117,7 @@ need this subpackage.
 
 %package doc
 Summary:          Additional documentation for gawk utility
-Requires:         %{name}% = %{version}-%{release}
+Requires:         %{name} = %{version}-%{release}
 BuildArch:        noarch
 
 %description doc
@@ -219,6 +219,9 @@ fi
 # =============================================================================
 
 %changelog
+* Sun Sep 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-7
+- Trailing '%' character removed from doc subpackage's NVR
+
 * Sun Sep 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-6
 - New gawk-doc subpackage created (contains HTML, PDF and PS documentation)
 
