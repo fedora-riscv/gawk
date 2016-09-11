@@ -15,7 +15,7 @@ Release:          7%{?dist}
 #
 # UPDATE: Upstream has confirmed that the licenses used here are correct:
 #         http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
-License: GPLv3+ and GPLv2+ and LGPLv2+ and BSD
+License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
 URL:              https://www.gnu.org/software/gawk/
 Source0:          https://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
@@ -35,8 +35,8 @@ Requires:         filesystem >= 3
 Requires:         libsigsegv
 Requires(post):   info
 Requires(preun):  info
-BuildRequires:    git
 BuildRequires:    ghostscript-core
+BuildRequires:    git
 BuildRequires:    libsigsegv-devel
 BuildRequires:    texinfo-tex
 
@@ -45,9 +45,6 @@ BuildRequires:    texinfo-tex
 #       same applies for command.y), the 'make' command will automatically try
 #       to rebuild the affected files. In that case we need to include the
 #       BuildRequires line below.
-#
-#       If possible, we should create a macro that will specifically check for
-#       these conditions and add the BuildRequires if necessary.
 #
 # INFO: Upstream explicitly wishes that we do not use 'yacc' instead of bison.
 #       For more info, see: https://bugzilla.redhat.com/show_bug.cgi?id=1176993
@@ -114,6 +111,7 @@ about gawk extensions, please refer to `The GNU Awk User's Guide`.
 However, unless you are developing an extension to gawk, you most likely do not
 need this subpackage.
 
+# ---------------
 
 %package doc
 Summary:          Additional documentation for gawk utility
@@ -160,14 +158,20 @@ make check
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 mkdir -p %{buildroot}%{_bindir}
 ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
 ln -sf gawk %{buildroot}%{_bindir}/awk
 
-# Remove the versioned binary hardlink:
-rm -f %{buildroot}%{_bindir}/{,p}gawk-%{version}*
+# Add additional symlinks to */awk folders:
+ln -sf /usr/share/awk   %{buildroot}%{_datadir}/gawk
+ln -sf /usr/libexec/awk %{buildroot}%{_libexecdir}/gawk
+
+# Fedora does not support multiple versions of same package installed...
+# The */dir file is not necessary for info pages to work correctly...
+# ->> remove the versioned binary hardlink & */dir file
+rm -f %{buildroot}%{_bindir}/gawk-%{version}*
 rm -f %{buildroot}%{_infodir}/dir
 
 # Install the all the documentation in the same folder - /usr/share/doc/gawk:
@@ -175,9 +179,11 @@ mkdir -p   %{buildroot}%{_docdir}/%{name}
 cp -a html %{buildroot}%{_docdir}/%{name}
 cp -a doc/gawk.{pdf,ps} doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
+# Install NLS language files:
 %find_lang %{name}
 
 
+# Always update the info pages:
 %post
 /sbin/install-info %{_infodir}/%{name}.info %{_infodir}/dir || :
 
@@ -197,7 +203,9 @@ fi
 %{_infodir}/gawkinet.info*
 %{_libdir}/gawk
 %{_libexecdir}/awk
+%{_libexecdir}/gawk
 %{_datadir}/awk
+%{_datadir}/gawk
 %{_bindir}/*awk
 
 %doc NEWS README POSIX.STD README_d/README.multibyte
