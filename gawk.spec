@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.3
-Release:          7%{?dist}
+Release:          8%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -33,11 +33,13 @@ Provides:         /bin/gawk
 # filesystem. More info: https://fedoraproject.org/wiki/Features/UsrMove
 Requires:         filesystem >= 3
 Requires:         libsigsegv
+Requires:         mpfr
 Requires(post):   info
 Requires(preun):  info
 BuildRequires:    ghostscript-core
 BuildRequires:    git
 BuildRequires:    libsigsegv-devel
+BuildRequires:    mpfr-devel
 BuildRequires:    texinfo-tex
 
 # NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
@@ -227,6 +229,10 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Sep 12 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-8
+- Support for GNU MPFR added (see 'man gawk', look for --bignum option)
+- Another round of specfile refactoring
+
 * Sun Sep 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-7
 - Trailing '%' character removed from doc subpackage's NVR
 
