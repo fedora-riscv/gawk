@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
-Version:          4.1.3
-Release:          9%{?dist}
+Version:          4.1.4
+Release:          1%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -39,10 +39,15 @@ Requires(post):   info
 Requires(preun):  info
 BuildRequires:    ghostscript-core
 BuildRequires:    git
+# Extending GAWK possibilities:
 BuildRequires:    libsigsegv-devel
 BuildRequires:    mpfr-devel
 BuildRequires:    readline-devel
+# Documentation (gawk-doc):
 BuildRequires:    texinfo-tex
+BuildRequires:    texlive-ec
+BuildRequires:    texlive-cm-super
+
 
 # NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
 #       changes the timestamp of awkgram.y, and it becomes newer than awkgram.c,
@@ -231,6 +236,9 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Sep 12 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-1
+- Update to latest stable release from upstream
+
 * Mon Sep 12 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-9
 - Build gawk with readline support (useful for gawk debugger)
 
