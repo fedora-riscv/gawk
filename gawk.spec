@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.4
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -236,6 +236,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Jan 12 2017 Igor Gnatenko <ignatenko@redhat.com> - 4.1.4-2
+- Rebuild for readline 7.x
+
 * Mon Sep 12 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-1
 - Update to latest stable release from upstream
 
