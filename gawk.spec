@@ -37,12 +37,15 @@ Requires:         mpfr
 Requires:         readline
 Requires(post):   info
 Requires(preun):  info
+
 BuildRequires:    ghostscript-core
 BuildRequires:    git
+
 # Extending GAWK possibilities:
 BuildRequires:    libsigsegv-devel
 BuildRequires:    mpfr-devel
 BuildRequires:    readline-devel
+
 # Documentation (gawk-doc):
 BuildRequires:    texinfo-tex
 BuildRequires:    texlive-ec
