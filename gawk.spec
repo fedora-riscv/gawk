@@ -37,11 +37,14 @@ Requires:         mpfr
 Requires:         readline
 Requires(post):   info
 Requires(preun):  info
+
 BuildRequires:    ghostscript-core
 BuildRequires:    git
+
 BuildRequires:    libsigsegv-devel
 BuildRequires:    mpfr-devel
 BuildRequires:    readline-devel
+
 BuildRequires:    texinfo-tex
 
 # NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
