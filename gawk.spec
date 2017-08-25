@@ -671,4 +671,3 @@ is defined or not. (For ppc64)
 
 * Mon Jun 02 1997 Erik Troan <ewt@redhat.com>
 - built against glibc
-
