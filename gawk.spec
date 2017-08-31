@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.3
-Release:          9%{?dist}
+Release:          10%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -168,8 +168,12 @@ make check
 %make_install
 
 mkdir -p %{buildroot}%{_bindir}
+
+# Man & info symlinks:
 ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
 ln -sf gawk %{buildroot}%{_bindir}/awk
+ln -sf gawk.info.gz %{buildroot}%{_infodir}/awk.info.gz
+ln -sf gawkinet.info.gz %{buildroot}%{_infodir}/awkinet.info.gz
 
 # Add additional symlinks to */awk folders:
 ln -sf /usr/share/awk   %{buildroot}%{_datadir}/gawk
@@ -206,8 +210,8 @@ fi
 %files -f %{name}.lang
 %{_mandir}/man1/*
 %{_mandir}/man3/*
-%{_infodir}/gawk.info*
-%{_infodir}/gawkinet.info*
+%{_infodir}/*awk.info*
+%{_infodir}/*awkinet.info*
 %{_libdir}/gawk
 %{_libexecdir}/awk
 %{_libexecdir}/gawk
@@ -234,6 +238,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-10
+- Added 'awk*' symlinks for info pages (bug #1486924)
+
 * Mon Sep 12 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-9
 - Build gawk with readline support (useful for gawk debugger)
 
