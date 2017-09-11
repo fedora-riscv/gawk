@@ -32,9 +32,6 @@ Provides:         /bin/gawk
 # Safeguard to allow this package to be installed only on UsrMove enabled
 # filesystem. More info: https://fedoraproject.org/wiki/Features/UsrMove
 Requires:         filesystem >= 3
-Requires:         libsigsegv
-Requires:         mpfr
-Requires:         readline
 Requires(post):   info
 Requires(preun):  info
 
