@@ -164,7 +164,7 @@ make check
 %install
 %make_install
 
-mkdir -p %{buildroot}%{_bindir}
+install -m 0755 -d %{buildroot}%{_bindir}
 
 ln -sf gawk %{buildroot}%{_bindir}/awk
 ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
@@ -180,9 +180,14 @@ rm -f %{buildroot}%{_bindir}/gawk-%{version}*
 rm -f %{buildroot}%{_infodir}/dir
 
 # Install the all the documentation in the same folder - /usr/share/doc/gawk:
-mkdir -p   %{buildroot}%{_docdir}/%{name}
-cp -a html %{buildroot}%{_docdir}/%{name}
-cp -a doc/gawk.{pdf,ps} doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
+install -m 0755 -d %{buildroot}%{_docdir}/%{name}/html/gawk/
+install -m 0755 -d %{buildroot}%{_docdir}/%{name}/html/gawkinet/
+
+install -m 0644 -p html/gawk/*           %{buildroot}%{_docdir}/%{name}/html/gawk/
+install -m 0644 -p html/gawkinet/*       %{buildroot}%{_docdir}/%{name}/html/gawkinet/
+
+install -m 0644 -p doc/gawk.{pdf,ps}     %{buildroot}%{_docdir}/%{name}
+install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
 # Install NLS language files:
 %find_lang %{name}
