@@ -1,7 +1,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.4
-Release:          4%{?dist}
+Release:          5%{?dist}
 
 # LICENSE NOTE: There are more licenses used inside the gawk source tarball from
 # ------------- upstream than  listed below, however, some of those files with
@@ -171,11 +171,8 @@ make check
 
 mkdir -p %{buildroot}%{_bindir}
 
-# Man & info symlinks:
-ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
 ln -sf gawk %{buildroot}%{_bindir}/awk
-ln -sf gawk.info.gz %{buildroot}%{_infodir}/awk.info.gz
-ln -sf gawkinet.info.gz %{buildroot}%{_infodir}/awkinet.info.gz
+ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
 
 # Add additional symlinks to */awk folders:
 ln -sf /usr/share/awk   %{buildroot}%{_datadir}/gawk
@@ -212,8 +209,7 @@ fi
 %files -f %{name}.lang
 %{_mandir}/man1/*
 %{_mandir}/man3/*
-%{_infodir}/*awk.info*
-%{_infodir}/*awkinet.info*
+%{_infodir}/*awk*.info*
 %{_libdir}/gawk
 %{_libexecdir}/awk
 %{_libexecdir}/gawk
@@ -240,6 +236,9 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-5
+- Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
+
 * Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-4
 - Added 'awk*' symlinks for info pages (bug #1486924)
 
