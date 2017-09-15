@@ -73,7 +73,7 @@ BuildRequires:    texinfo-tex
 
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
-#Patch000: example000.patch
+Patch000: gawk-4.1.3-000-info-pages-fixes.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -233,6 +233,7 @@ fi
 %changelog
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-11
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
+- Added patch to correctly fix the info pages issue (bug #1486924)
 
 * Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-10
 - Added 'awk*' symlinks for info pages (bug #1486924)

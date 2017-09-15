@@ -1,0 +1,81 @@
+From e55c8f5c84c1d62469ac6cb5bd2c35e5b6c0a3be Mon Sep 17 00:00:00 2001
+From: "Arnold D. Robbins" <arnold@skeeve.com>
+Date: Wed, 13 Sep 2017 21:50:12 +0300
+Subject: [PATCH] Small fixes to doc for use with info command.
+
+---
+ doc/gawk.info     | 2 +-
+ doc/gawk.texi     | 2 +-
+ doc/gawkinet.info | 2 +-
+ doc/gawkinet.texi | 2 +-
+ doc/gawktexi.in   | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/doc/gawk.info b/doc/gawk.info
+index 1991a3b..73ada88 100644
+--- a/doc/gawk.info
++++ b/doc/gawk.info
+@@ -25,7 +25,7 @@ END-INFO-DIR-ENTRY
+ 
+ INFO-DIR-SECTION Individual utilities
+ START-INFO-DIR-ENTRY
+-* awk: (gawk)Invoking gawk.                     Text scanning and processing.
++* awk: (gawk)Invoking Gawk.                     Text scanning and processing.
+ END-INFO-DIR-ENTRY
+ 
+ 
+diff --git a/doc/gawk.texi b/doc/gawk.texi
+index 18ef080..ca83d5e 100644
+--- a/doc/gawk.texi
++++ b/doc/gawk.texi
+@@ -16,7 +16,7 @@
+ @end direntry
+ @dircategory Individual utilities
+ @direntry
+-* awk: (gawk)Invoking gawk.                     Text scanning and processing.
++* awk: (gawk)Invoking Gawk.                     Text scanning and processing.
+ @end direntry
+ 
+ @ifset FOR_PRINT
+diff --git a/doc/gawkinet.info b/doc/gawkinet.info
+index d726be0..715f216 100644
+--- a/doc/gawkinet.info
++++ b/doc/gawkinet.info
+@@ -3,7 +3,7 @@ gawkinet.texi.
+ 
+ INFO-DIR-SECTION Network applications
+ START-INFO-DIR-ENTRY
+-* Gawkinet: (gawkinet).         TCP/IP Internetworking With `gawk'.
++* awkinet: (gawkinet).          TCP/IP Internetworking With `gawk'.
+ END-INFO-DIR-ENTRY
+ 
+    This is Edition 1.3 of `TCP/IP Internetworking with `gawk'', for the
+diff --git a/doc/gawkinet.texi b/doc/gawkinet.texi
+index 1022323..dfa8cdb 100644
+--- a/doc/gawkinet.texi
++++ b/doc/gawkinet.texi
+@@ -7,7 +7,7 @@
+ 
+ @dircategory Network applications
+ @direntry
+-* Gawkinet: (gawkinet).         TCP/IP Internetworking With `gawk'.
++* awkinet: (gawkinet).          TCP/IP Internetworking With `gawk'.
+ @end direntry
+ 
+ @iftex
+diff --git a/doc/gawktexi.in b/doc/gawktexi.in
+index 0066593..8ac65de 100644
+--- a/doc/gawktexi.in
++++ b/doc/gawktexi.in
+@@ -11,7 +11,7 @@
+ @end direntry
+ @dircategory Individual utilities
+ @direntry
+-* awk: (gawk)Invoking gawk.                     Text scanning and processing.
++* awk: (gawk)Invoking Gawk.                     Text scanning and processing.
+ @end direntry
+ 
+ @ifset FOR_PRINT
+-- 
+2.9.5
+
