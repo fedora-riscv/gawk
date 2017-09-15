@@ -78,7 +78,7 @@ BuildRequires:    texlive-cm-super
 
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
-#Patch000: example000.patch
+Patch000: gawk-4.1.4-000-info-pages-fixes.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -238,6 +238,7 @@ fi
 %changelog
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-5
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
+- Added patch to correctly fix the info pages issue (bug #1486924)
 
 * Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-4
 - Added 'awk*' symlinks for info pages (bug #1486924)
