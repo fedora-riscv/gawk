@@ -145,6 +145,7 @@ git add --all --force .
 git commit --all --amend --no-edit > /dev/null
 %autopatch -p1
 
+# ---------------
 
 %build
 %configure
@@ -156,28 +157,31 @@ mkdir -p html/gawk html/gawkinet
 makeinfo --html -I doc -o html/gawk     doc/gawk.texi
 makeinfo --html -I doc -o html/gawkinet doc/gawkinet.texi
 
+# ---------------
 
 %check
 make check
 
+# ---------------
 
 %install
 %make_install
 
-install -m 0755 -d %{buildroot}%{_bindir}
+# Fedora does not support multiple versions of same package installed,
+# and the */dir info file (containing all top nodes) is automatically updated
+# in the %%post and %%postun phases...
+rm -f %{buildroot}%{_bindir}/gawk-%{version}*
+rm -f %{buildroot}%{_infodir}/dir
 
+# Create additional symlinks:
 ln -sf gawk %{buildroot}%{_bindir}/awk
 ln -sf gawk.1.gz %{buildroot}%{_mandir}/man1/awk.1.gz
 
-# Add additional symlinks to */awk folders:
 ln -sf /usr/share/awk   %{buildroot}%{_datadir}/gawk
 ln -sf /usr/libexec/awk %{buildroot}%{_libexecdir}/gawk
 
-# Fedora does not support multiple versions of same package installed...
-# The */dir file is not necessary for info pages to work correctly...
-# ->> remove the versioned binary hardlink & */dir file
-rm -f %{buildroot}%{_bindir}/gawk-%{version}*
-rm -f %{buildroot}%{_infodir}/dir
+# Install NLS language files:
+%find_lang %{name}
 
 # Install the all the documentation in the same folder - /usr/share/doc/gawk:
 install -m 0755 -d %{buildroot}%{_docdir}/%{name}/html/gawk/
@@ -189,20 +193,18 @@ install -m 0644 -p html/gawkinet/*       %{buildroot}%{_docdir}/%{name}/html/gaw
 install -m 0644 -p doc/gawk.{pdf,ps}     %{buildroot}%{_docdir}/%{name}
 install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
-# Install NLS language files:
-%find_lang %{name}
-
+# ---------------
 
 # Always update the info pages:
 %post
 /sbin/install-info %{_infodir}/%{name}.info %{_infodir}/dir || :
 
+# ---------------
 
 %preun
 if [[ $1 -eq 0 ]]; then
   /sbin/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir || :
 fi
-
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
@@ -220,10 +222,12 @@ fi
 %doc NEWS README POSIX.STD README_d/README.multibyte
 %license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
 
+# ---------------
 
 %files devel
 %{_includedir}/gawkapi.h
 
+# ---------------
 
 %files doc
 # NOTE: For some reason, adding all files in one line causes RPM build to fail.
