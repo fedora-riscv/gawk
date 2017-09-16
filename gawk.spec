@@ -105,7 +105,8 @@ text processing.
 
 %package devel
 Summary:          Header file for gawk extensions development
-Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         %{name} = %{version}-%{release}
+BuildArch:        noarch
 
 %description devel
 This subpackage provides /usr/include/gawkapi.h header file, which contains
