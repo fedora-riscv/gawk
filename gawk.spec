@@ -213,10 +213,8 @@ fi
 %{_mandir}/man3/*
 %{_infodir}/*awk*.info*
 %{_libdir}/gawk
-%{_libexecdir}/awk
-%{_libexecdir}/gawk
-%{_datadir}/awk
-%{_datadir}/gawk
+%{_libexecdir}/*awk
+%{_datadir}/*awk
 %{_bindir}/*awk
 
 %doc NEWS README POSIX.STD README_d/README.multibyte
@@ -229,12 +227,10 @@ fi
 
 # ---------------
 
-%files doc
 # NOTE: For some reason, adding all files in one line causes RPM build to fail.
-%doc %{_docdir}/%{name}/gawk.pdf
-%doc %{_docdir}/%{name}/gawkinet.pdf
-%doc %{_docdir}/%{name}/gawk.ps
-%doc %{_docdir}/%{name}/gawkinet.ps
+%files doc
+%doc %{_docdir}/%{name}/gawk.{pdf,ps}
+%doc %{_docdir}/%{name}/gawkinet.{pdf,ps}
 %doc %{_docdir}/%{name}/html
 
 # =============================================================================
