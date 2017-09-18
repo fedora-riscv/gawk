@@ -215,13 +215,14 @@ fi
 # === PACKAGING INSTRUCTIONS ==================================================
 
 %files -f %{name}.lang
-%{_mandir}/man1/*
-%{_mandir}/man3/*
-%{_infodir}/*awk*.info*
+%{_bindir}/*awk
 %{_libdir}/gawk
 %{_libexecdir}/*awk
 %{_datadir}/*awk
-%{_bindir}/*awk
+
+%{_mandir}/man1/*
+%{_mandir}/man3/*
+%{_infodir}/*awk*.info*
 
 %doc NEWS README POSIX.STD README_d/README.multibyte
 %license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
