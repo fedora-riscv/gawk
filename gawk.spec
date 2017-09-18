@@ -38,7 +38,7 @@
 # These values are defined in the gawkapi.h header file. To see them, run:
 #   grep -E "gawk_api_(major|minor).*[[:digit:]]" gawkapi.h
 %global gawk_api_major 1
-%global gawk_api_minor 1
+https://src.fedoraproject.org/rpms/poppler%global gawk_api_minor 1
 
 # =============================================================================
 
@@ -280,6 +280,8 @@ fi
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
 - Added patch to correctly fix the info pages issue (bug #1486924)
 - specfile content refactored for better readability
+- Package now provides its ABI version via gawk(abi)
+- Added test for usage of correct gawk(abi) into %%check section
 
 * Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-6
 - Added 'awk*' symlinks for info pages (bug #1486924)
