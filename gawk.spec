@@ -1,27 +1,47 @@
+#
+# Important notes regarding the package:
+# ======================================
+#
+# LICENSES: There are more licenses used inside the gawk source tarball from
+#           upstream than listed in License: field below. However, some of
+#           those files with different license are not used for compiling the
+#           resulting binaries, nor they are additinionally shipped inside the
+#           final package or its subpacakges
+#
+#           To get latest version of currently used licenses in gawk run the
+#           licensecheck. We assume that files that do not explicitly state
+#           their copyright are licensed under GPLv3+ as per COPYING file
+#           inside root directory of source code.
+#
+#           Also, we have to ship additional license files with the package,
+#           because upstream does not include them inside their source tarball:
+#           and never will. They have also confirmed that the additional
+#           licenses shipped are correct. For more info, see:
+#
+#           http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
+
+# === GLOBAL MACROS ===========================================================
+
+# According to Fedora Package Guidelines, it is advised that packages that can
+# process untrusted input are build with position-idenpendent code (PIC).
+#
+# Koji should override the compilation flags and add the -fPIC or -fPIE flags by
+# default. This is here just in case this wouldn't happen for some reason.
+# For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
+%global _hardened_build 1
+
+# =============================================================================
+
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.4
 Release:          5%{?dist}
 
-# LICENSE NOTE: There are more licenses used inside the gawk source tarball from
-# ------------- upstream than  listed below, however, some of those files with
-#               different licenses are not used for compiling the resulting
-#               binaries, nor they are additionally shipped inside the final
-#               package or its subpackages.
-#
-# To get latest version of currently used licenses in gawk run: licensecheck
-# We assume that files that do not explicitly state their copyright are licensed
-# under GPLv3+ as per COPYING file inside root directory of source code.
-#
-# UPDATE: Upstream has confirmed that the licenses used here are correct:
-#         http://lists.gnu.org/archive/html/bug-gawk/2016-09/msg00008.html
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
 URL:              https://www.gnu.org/software/gawk/
 Source0:          https://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 
-# Additional license files that we have to ship with the package because does
-# not include them inside their source tarball and never will (see mail above):
 Source1:          LICENSE.GPLv2
 Source2:          LICENSE.LGPLv2
 Source3:          LICENSE.BSD
@@ -48,7 +68,6 @@ BuildRequires:    texinfo-tex
 BuildRequires:    texlive-ec
 BuildRequires:    texlive-cm-super
 
-
 # NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
 #       changes the timestamp of awkgram.y, and it becomes newer than awkgram.c,
 #       same applies for command.y), the 'make' command will automatically try
@@ -58,16 +77,6 @@ BuildRequires:    texlive-cm-super
 # INFO: Upstream explicitly wishes that we do not use 'yacc' instead of bison.
 #       For more info, see: https://bugzilla.redhat.com/show_bug.cgi?id=1176993
 #BuildRequires:    bison
-
-# === GLOBAL MACROS ===========================================================
-
-# According to Fedora Package Guidelines, it is advised that packages that can
-# process untrusted input are build with position-idenpendent code (PIC).
-#
-# Koji should override the compilation flags and add the -fPIC or -fPIE flags by
-# default. This is here just in case this wouldn't happen for some reason.
-# For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
-%global _hardened_build 1
 
 # =============================================================================
 
@@ -246,6 +255,7 @@ fi
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-5
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
 - Added patch to correctly fix the info pages issue (bug #1486924)
+- specfile content refactored for better readability
 
 * Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-4
 - Added 'awk*' symlinks for info pages (bug #1486924)
