@@ -38,7 +38,7 @@
 # These values are defined in the gawkapi.h header file. To see them, run:
 #   grep -E "gawk_api_(major|minor).*[[:digit:]]" gawkapi.h
 %global gawk_api_major 1
-https://src.fedoraproject.org/rpms/poppler%global gawk_api_minor 1
+%global gawk_api_minor 1
 
 # =============================================================================
 
