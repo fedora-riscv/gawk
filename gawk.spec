@@ -69,6 +69,7 @@ Requires(preun):  info
 
 BuildRequires:    ghostscript-core
 BuildRequires:    git
+BuildRequires:    grep
 
 # Extending GAWK possibilities:
 BuildRequires:    libsigsegv-devel
@@ -188,6 +189,17 @@ makeinfo --html -I doc -o html/gawkinet doc/gawkinet.texi
 
 %check
 make check
+
+# Check we have correctly specified the ABI version for the current sources:
+api_major_vers=$(grep -e "gawk_api_major.*[[:digit:]]" gawkapi.h | grep -o -e "[[:digit:]]")
+api_minor_vers=$(grep -e "gawk_api_minor.*[[:digit:]]" gawkapi.h | grep -o -e "[[:digit:]]")
+
+if [[ "$api_major_vers" != %{gawk_api_major} || "$api_minor_vers" != %{gawk_api_minor} ]]; then
+  echo "Build Error: specified gawk(abi) version [%{gawk_api_major}.%{gawk_api_minor}] is different than source code API version [$api_major_vers.$api_minor_vers]!" >&2
+  exit 1
+else
+  unset api_major_vers api_minor_vers
+fi
 
 # ---------------
 
