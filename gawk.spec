@@ -30,6 +30,16 @@
 # For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
 %global _hardened_build 1
 
+# We are defining the gawk(abi) version value based on these values, because
+# upstream updates the API from time to time, which breaks the ABI for packages
+# depending on gawk's shared objects. The gawk(abi) version value is exported
+# below via the Provides: field.
+#
+# These values are defined in the gawkapi.h header file. To see them, run:
+#   grep -E "gawk_api_(major|minor).*[[:digit:]]" gawkapi.h
+%global gawk_api_major 1
+%global gawk_api_minor 1
+
 # =============================================================================
 
 Name:             gawk
@@ -48,6 +58,8 @@ Source3:          LICENSE.BSD
 
 Provides:         /bin/awk
 Provides:         /bin/gawk
+
+Provides:         gawk(abi) = %{gawk_api_major}.%{gawk_api_minor}
 
 # Safeguard to allow this package to be installed only on UsrMove enabled
 # filesystem. More info: https://fedoraproject.org/wiki/Features/UsrMove
