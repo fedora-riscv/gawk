@@ -276,6 +276,8 @@ fi
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
 - Added patch to correctly fix the info pages issue (bug #1486924)
 - specfile content refactored for better readability
+- Package now provides its ABI version via gawk(abi)
+- Added test for usage of correct gawk(abi) into %%check section
 
 * Thu Aug 31 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-10
 - Added 'awk*' symlinks for info pages (bug #1486924)
