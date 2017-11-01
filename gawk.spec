@@ -220,6 +220,26 @@ install -m 0644 -p html/gawkinet/*       %{buildroot}%{_docdir}/%{name}/html/gaw
 install -m 0644 -p doc/gawk.{pdf,ps}     %{buildroot}%{_docdir}/%{name}
 install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
+# Generate latest version of 'macros.gawk' file used by gawk extensions:
+install -m 0755 -d %{buildroot}%{_rpmconfigdir}/macros.d
+
+cat > %{buildroot}%{_rpmconfigdir}/macros.d/macros.gawk << _EOF
+# Current API version:
+%%gawk_api_major         %{gawk_api_major}
+%%gawk_api_minor         %{gawk_api_minor}
+%%gawk_api_version       %{gawk_api_major}.%{gawk_api_minor}
+
+# Next API version which will be incopatible with current API:
+%%gawk_api_version_next  $((%{gawk_api_major} + 1)).0
+
+# This macro will make sure that your current gawk extension
+# is build against latest gawk API available in buildroot:
+%%gawk_abi_requires \\
+Requires:         gawk(abi) >= %%{gawk_api_version} \\
+Requires:         gawk(abi) <  %%{gawk_api_version_next} \\
+%%{nil}
+_EOF
+
 # ---------------
 
 # Always update the info pages:
@@ -252,6 +272,7 @@ fi
 
 %files devel
 %{_includedir}/gawkapi.h
+%{_rpmconfigdir}/macros.d/macros.gawk
 
 # ---------------
 
