@@ -30,15 +30,14 @@
 # For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
 %global _hardened_build 1
 
-# We are defining the gawk(abi) version value based on these values, because
-# upstream updates the API from time to time, which breaks the ABI for packages
-# depending on gawk's shared objects. The gawk(abi) version value is exported
-# below via the Provides: field.
-#
-# These values are defined in the gawkapi.h header file. To see them, run:
-#   grep -E "gawk_api_(major|minor).*[[:digit:]]" gawkapi.h
-%global gawk_api_major 1
-%global gawk_api_minor 1
+# Extraction of API major & minor versions, so we can export them below:
+%global gawk_api_major %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout | \
+                          grep -i -e "gawk_api_major.*[[:digit:]]" | \
+                          grep -o -e "[[:digit:]]")
+
+%global gawk_api_minor %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout | \
+                          grep -i -e "gawk_api_minor.*[[:digit:]]" | \
+                          grep -o -e "[[:digit:]]")
 
 # =============================================================================
 
@@ -189,17 +188,6 @@ makeinfo --html -I doc -o html/gawkinet doc/gawkinet.texi
 
 %check
 make check
-
-# Check we have correctly specified the ABI version for the current sources:
-api_major_vers=$(grep -i -e "gawk_api_major.*[[:digit:]]" gawkapi.h | grep -o -e "[[:digit:]]")
-api_minor_vers=$(grep -i -e "gawk_api_minor.*[[:digit:]]" gawkapi.h | grep -o -e "[[:digit:]]")
-
-if [[ "$api_major_vers" != %{gawk_api_major} || "$api_minor_vers" != %{gawk_api_minor} ]]; then
-  echo "Build Error: specified gawk(abi) version [%{gawk_api_major}.%{gawk_api_minor}] is different than source code API version [$api_major_vers.$api_minor_vers]!" >&2
-  exit 1
-else
-  unset api_major_vers api_minor_vers
-fi
 
 # ---------------
 
