@@ -43,8 +43,8 @@
 
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
-Version:          4.1.4
-Release:          7%{?dist}
+Version:          4.2.0
+Release:          1%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -88,7 +88,7 @@ BuildRequires:    texlive-cm-super
 #
 # INFO: Upstream explicitly wishes that we do not use 'yacc' instead of bison.
 #       For more info, see: https://bugzilla.redhat.com/show_bug.cgi?id=1176993
-#BuildRequires:    bison
+BuildRequires:    bison
 
 # =============================================================================
 
@@ -99,7 +99,8 @@ BuildRequires:    texlive-cm-super
 
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
-Patch000: gawk-4.1.4-000-info-pages-fixes.patch
+Patch000: gawk-4.2.0-000-do-not-fold-constant-strings.patch
+Patch001: gawk-4.2.0-001-rwarray-small-improvements.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -237,9 +238,10 @@ fi
 
 %files -f %{name}.lang
 %{_bindir}/*awk
-%{_libdir}/gawk
-%{_libexecdir}/*awk
+%{_libdir}/*awk
 %{_datadir}/*awk
+%{_libexecdir}/*awk
+%{_sysconfdir}/profile.d/gawk.*
 
 %{_mandir}/man1/*
 %{_mandir}/man3/*
@@ -264,6 +266,10 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Nov 07 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.0-1
+- Update to late stable release from upstream [new API version - 2.0]
+- Added latest relevant patches from upstream's gawk-4.2-stable branch
+
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-7
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
 - Added patch to correctly fix the info pages issue (bug #1486924)
