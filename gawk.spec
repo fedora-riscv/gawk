@@ -132,7 +132,7 @@ text processing.
 
 %package devel
 Summary:          Header file for gawk extensions development
-Requires:         %{name} = %{version}-%{release}
+Requires:         %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This subpackage provides /usr/include/gawkapi.h header file, which contains
@@ -277,6 +277,7 @@ fi
 %changelog
 * Thu Nov 23 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-8
 - 'noarch' removed from *-devel subpackage
+- added arch requirement for *-devel subpackage
 
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-7
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
