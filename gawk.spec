@@ -180,7 +180,7 @@ git commit --all --amend --no-edit > /dev/null
 
 %build
 %configure
-%make_build %{optflags}
+%make_build
 
 # Build the documentation in PDF, postscript and HTML versions:
 make -C doc pdf
@@ -271,7 +271,7 @@ fi
 %changelog
 * Thu Nov 23 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.0-2
 - 'noarch' removed from *-devel subpackage
-- updated the build process to use: %%make_build %%{optflags}
+- updated the build process to use %%make_build macro
 
 * Tue Nov 07 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.0-1
 - Update to late stable release from upstream [new API version - 2.0]
