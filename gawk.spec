@@ -176,7 +176,7 @@ git commit --all --amend --no-edit > /dev/null
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 # Build the documentation in PDF, postscript and HTML versions:
 make -C doc pdf
@@ -278,6 +278,7 @@ fi
 * Thu Nov 23 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-8
 - 'noarch' removed from *-devel subpackage
 - added arch requirement for *-devel subpackage
+- updated the build process to use %%make_build macro
 
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-7
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
