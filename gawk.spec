@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.2.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -137,7 +137,6 @@ text processing.
 %package devel
 Summary:          Header file for gawk extensions development
 Requires:         %{name} = %{version}-%{release}
-BuildArch:        noarch
 
 %description devel
 This subpackage provides /usr/include/gawkapi.h header file, which contains
@@ -270,6 +269,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Nov 23 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.0-2
+- 'noarch' removed from *-devel subpackage
+
 * Tue Nov 07 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.0-1
 - Update to late stable release from upstream [new API version - 2.0]
 - Added latest relevant patches from upstream's gawk-4.2-stable branch
