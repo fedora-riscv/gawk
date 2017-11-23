@@ -183,7 +183,7 @@ git commit --all --amend --no-edit > /dev/null
 %make_build
 
 # Build the documentation in PDF, postscript and HTML versions:
-make -C doc pdf
+%make_build -C doc pdf
 mkdir -p html/gawk html/gawkinet
 makeinfo --html -I doc -o html/gawk     doc/gawk.texi
 makeinfo --html -I doc -o html/gawkinet doc/gawkinet.texi
