@@ -45,7 +45,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.1.4
-Release:          5%{?dist}
+Release:          6%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -133,7 +133,6 @@ text processing.
 %package devel
 Summary:          Header file for gawk extensions development
 Requires:         %{name} = %{version}-%{release}
-BuildArch:        noarch
 
 %description devel
 This subpackage provides /usr/include/gawkapi.h header file, which contains
@@ -276,6 +275,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Nov 23 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-6
+- 'noarch' removed from *-devel subpackage
+
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-5
 - Revert previous change of adding 'awk*' symlinks for info pages (bug #1486924)
 - Added patch to correctly fix the info pages issue (bug #1486924)
