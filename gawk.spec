@@ -66,7 +66,7 @@ Requires:         filesystem >= 3
 Requires(post):   info
 Requires(preun):  info
 
-BuildRequires:    ghostscript-core
+BuildRequires:    ghostscript
 BuildRequires:    git
 BuildRequires:    grep
 
