@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.2.0
-Release:          3%{?dist}
+Release:          4%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -269,6 +269,9 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.2.0-4
+- Escape macros in %%changelog
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
@@ -314,7 +317,7 @@ fi
 - Another round of specfile refactoring
 
 * Sun Sep 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-7
-- Trailing '%' character removed from doc subpackage's NVR
+- Trailing '%%' character removed from doc subpackage's NVR
 
 * Sun Sep 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.3-6
 - New gawk-doc subpackage created (contains HTML, PDF and PS documentation)
