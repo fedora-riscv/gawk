@@ -67,9 +67,10 @@ Requires:         filesystem >= 3
 Requires(post):   info
 Requires(preun):  info
 
-BuildRequires:    ghostscript-core
 BuildRequires:    git
+BuildRequires:    gcc
 BuildRequires:    grep
+BuildRequires:    ghostscript-core
 
 # Extending GAWK possibilities:
 BuildRequires:    libsigsegv-devel
