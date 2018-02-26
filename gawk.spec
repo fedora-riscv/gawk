@@ -282,7 +282,7 @@ fi
 - updated the build process to use %%make_build macro
 
 * Tue Nov 07 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.0-1
-- Update to late stable release from upstream [new API version - 2.0]
+- Update to latest stable release from upstream [new API version - 2.0]
 - Added latest relevant patches from upstream's gawk-4.2-stable branch
 
 * Fri Sep 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.1.4-7
