@@ -43,8 +43,8 @@
 
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
-Version:          4.2.0
-Release:          4%{?dist}
+Version:          4.2.1
+Release:          1%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -104,8 +104,7 @@ BuildRequires:    bison
 
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
-Patch000: gawk-4.2.0-000-do-not-fold-constant-strings.patch
-Patch001: gawk-4.2.0-001-rwarray-small-improvements.patch
+#Patch000: example000.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -270,6 +269,9 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Feb 26 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.1-1
+- Rebase to latest stable release from upstream
+
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.2.0-4
 - Escape macros in %%changelog
 
