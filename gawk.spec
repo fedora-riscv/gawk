@@ -63,8 +63,6 @@ Provides:         gawk(abi) = %{gawk_api_major}.%{gawk_api_minor}
 # Safeguard to allow this package to be installed only on UsrMove enabled
 # filesystem. More info: https://fedoraproject.org/wiki/Features/UsrMove
 Requires:         filesystem >= 3
-Requires(post):   info
-Requires(preun):  info
 
 BuildRequires:    git
 BuildRequires:    gcc
