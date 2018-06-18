@@ -224,19 +224,6 @@ install -m 0644 -p html/gawkinet/*       %{buildroot}%{_docdir}/%{name}/html/gaw
 install -m 0644 -p doc/gawk.{pdf,ps}     %{buildroot}%{_docdir}/%{name}
 install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
-# ---------------
-
-# Always update the info pages:
-%post
-/sbin/install-info %{_infodir}/%{name}.info %{_infodir}/dir || :
-
-# ---------------
-
-%preun
-if [[ $1 -eq 0 ]]; then
-  /sbin/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir || :
-fi
-
 # === PACKAGING INSTRUCTIONS ==================================================
 
 %files -f %{name}.lang
