@@ -31,13 +31,13 @@
 %global _hardened_build 1
 
 # Extract the API major & minor versions, so we can export them below:
-%global gawk_api_major %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout | \
+%global gawk_api_major %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout 2>/dev/null | \
                           grep -i -e "gawk_api_major.*[[:digit:]]" | \
-                          grep -o -e "[[:digit:]]")
+                          grep -o -e "[[:digit:]]" || :)
 
-%global gawk_api_minor %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout | \
+%global gawk_api_minor %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout 2>/dev/null | \
                           grep -i -e "gawk_api_minor.*[[:digit:]]" | \
-                          grep -o -e "[[:digit:]]")
+                          grep -o -e "[[:digit:]]" || :)
 
 # =============================================================================
 
