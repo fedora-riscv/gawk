@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.2.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -103,6 +103,11 @@ BuildRequires:    bison
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
 #Patch000: example000.patch
+Patch000: gawk-4.2.1-000-add-support-for-a-and-A-in-printf.patch
+Patch001: gawk-4.2.1-001-remove-the-tail-recursion-optimization.patch
+Patch002: gawk-4.2.1-002-copy-MPZ-MPFR-bits-also-in-r_dupnode.patch
+Patch003: gawk-4.2.1-003-fix-rebuilding-records-if-using-API-parser.patch
+Patch004: gawk-4.2.1-004-fix-a-corner-case-with-EPIPE-to-stdout-stderr.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -119,6 +124,7 @@ BuildRequires:    bison
 
 # Patches to be removed -- deprecated functionality which shall be removed at
 # ---------------------    some point in the future:
+Patch200: gawk-4.2.1-200-fix-build-for-f29.patch
 
 
 %description
@@ -254,6 +260,14 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Thu Jun 21 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.1-2
+- 5 important patches backported from upstream per their request:
+    gawk-4.2.1-000-add-support-for-a-and-A-in-printf.patch
+    gawk-4.2.1-001-remove-the-tail-recursion-optimization.patch
+    gawk-4.2.1-002-copy-MPZ-MPFR-bits-also-in-r_dupnode.patch
+    gawk-4.2.1-003-fix-rebuilding-records-if-using-API-parser.patch
+    gawk-4.2.1-004-fix-a-corner-case-with-EPIPE-to-stdout-stderr.patch
+
 * Mon Feb 26 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 4.2.1-1
 - Rebase to latest stable release from upstream
 
