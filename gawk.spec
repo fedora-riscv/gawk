@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.2.1
-Release:          4%{?dist}
+Release:          5%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -78,6 +78,9 @@ BuildRequires:    readline-devel
 BuildRequires:    texinfo-tex
 BuildRequires:    texlive-ec
 BuildRequires:    texlive-cm-super
+
+# Make check
+BuildRequires:    glibc-all-langpacks
 
 # NOTE: In case any patch updates the awkgram.y or command.y (IOW if anything
 #       changes the timestamp of awkgram.y, and it becomes newer than awkgram.c,
@@ -269,6 +272,10 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Wed Feb 13 2019 Jakub Martisko <jamartis@redhat.com> - 4.2.1-5
+- Fix FTBFS caused by missing glibc langpacks required by make check
+  Resolves: #1674922
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
