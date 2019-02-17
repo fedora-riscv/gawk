@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          4.2.1
-Release:          5%{?dist}
+Release:          6%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -272,6 +272,9 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Sun Feb 17 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.2.1-6
+- Rebuild for readline 8.0
+
 * Wed Feb 13 2019 Jakub Martisko <jamartis@redhat.com> - 4.2.1-5
 - Fix FTBFS caused by missing glibc langpacks required by make check
   Resolves: #1674922
