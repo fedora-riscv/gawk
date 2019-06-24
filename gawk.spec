@@ -43,8 +43,8 @@
 
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
-Version:          4.2.1
-Release:          6%{?dist}
+Version:          5.0.1
+Release:          1%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -111,11 +111,11 @@ BuildRequires:    automake
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
 #Patch000: example000.patch
-Patch000: gawk-4.2.1-000-add-support-for-a-and-A-in-printf.patch
-Patch001: gawk-4.2.1-001-remove-the-tail-recursion-optimization.patch
-Patch002: gawk-4.2.1-002-copy-MPZ-MPFR-bits-also-in-r_dupnode.patch
-Patch003: gawk-4.2.1-003-fix-rebuilding-records-if-using-API-parser.patch
-Patch004: gawk-4.2.1-004-fix-a-corner-case-with-EPIPE-to-stdout-stderr.patch
+#Patch000: gawk-4.2.1-000-add-support-for-a-and-A-in-printf.patch
+#Patch001: gawk-4.2.1-001-remove-the-tail-recursion-optimization.patch
+#Patch002: gawk-4.2.1-002-copy-MPZ-MPFR-bits-also-in-r_dupnode.patch
+#Patch003: gawk-4.2.1-003-fix-rebuilding-records-if-using-API-parser.patch
+#Patch004: gawk-4.2.1-004-fix-a-corner-case-with-EPIPE-to-stdout-stderr.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -272,6 +272,10 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Mon Jun 24 2019 Jakub Martisko <jamartis@redhat.com> - 5.0.1-1
+- New upstream release
+  Resolves: #1674922
+
 * Sun Feb 17 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.2.1-6
 - Rebuild for readline 8.0
 
