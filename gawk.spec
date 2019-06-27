@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          5.0.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -116,6 +116,11 @@ BuildRequires:    automake
 #Patch002: gawk-4.2.1-002-copy-MPZ-MPFR-bits-also-in-r_dupnode.patch
 #Patch003: gawk-4.2.1-003-fix-rebuilding-records-if-using-API-parser.patch
 #Patch004: gawk-4.2.1-004-fix-a-corner-case-with-EPIPE-to-stdout-stderr.patch
+Patch005: gawk-inplace-namespace-part1.patch
+Patch006: gawk-inplace-namespace-part2.patch
+#Parts of the patch dealing with .info files, were removed, some parts of documentation might be broken
+Patch007: gawk-inplace-namespace-part3.patch
+
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -272,6 +277,11 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Thu Jun 27 2019 Jakub Martisko <jamartis@redhat.com> - 5.0.1-2
+- Fix the bacward compatibility of the inplace extension
+- (renaming of some variables due to introduction of namespaces)
+  Resolves: #1723359
+
 * Mon Jun 24 2019 Jakub Martisko <jamartis@redhat.com> - 5.0.1-1
 - New upstream release
   Resolves: #1674922
