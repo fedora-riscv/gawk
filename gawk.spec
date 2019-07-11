@@ -44,7 +44,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          5.0.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -120,6 +120,7 @@ Patch005: gawk-inplace-namespace-part1.patch
 Patch006: gawk-inplace-namespace-part2.patch
 #Parts of the patch dealing with .info files, were removed, some parts of documentation might be broken
 Patch007: gawk-inplace-namespace-part3.patch
+Patch008: gawk-api-version.patch
 
 
 
@@ -277,6 +278,9 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Thu Jul 11 2019 Andrew Schorr <ajschorr@fedoraproject.org> - 5.0.10-3
+- Add upstream patch to fix the API version number
+
 * Thu Jun 27 2019 Jakub Martisko <jamartis@redhat.com> - 5.0.1-2
 - Fix the bacward compatibility of the inplace extension
 - (renaming of some variables due to introduction of namespaces)
