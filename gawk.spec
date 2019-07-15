@@ -278,7 +278,7 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
-* Thu Jul 11 2019 Andrew Schorr <ajschorr@fedoraproject.org> - 5.0.10-3
+* Thu Jul 11 2019 Andrew Schorr <ajschorr@fedoraproject.org> - 5.0.1-3
 - Add upstream patch to fix the API version number
 
 * Thu Jun 27 2019 Jakub Martisko <jamartis@redhat.com> - 5.0.1-2
