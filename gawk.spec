@@ -30,10 +30,13 @@
 # For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
 %global _hardened_build 1
 
-# Extract the API major & minor versions, so we can export them below:
-%global gawk_api_major %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout 2>/dev/null | \
+# Extract the API major & minor versions, so we can export them below.
+# Ensure that the major version is >= 3, since that patch is not yet
+# in the tarball.
+%global gawk_api_major %%(x=`tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout 2>/dev/null | \
                           grep -i -e "gawk_api_major.*[[:digit:]]" | \
-                          grep -o -e "[[:digit:]]" || :)
+                          grep -o -e "[[:digit:]]"`; \
+			  [ "$x" -lt 3 ] && x=3; echo $x)
 
 %global gawk_api_minor %%(tar -xf %{SOURCE0} gawk-%{version}/gawkapi.h --to-stdout 2>/dev/null | \
                           grep -i -e "gawk_api_minor.*[[:digit:]]" | \
@@ -278,6 +281,9 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Sat Jul 20 2019 Andrew Schorr <ajschorr@fedoraproject.org> - 5.0.1-4
+- Force api_major_version >= 3 because patch is not in tarball yet
+
 * Thu Jul 11 2019 Andrew Schorr <ajschorr@fedoraproject.org> - 5.0.1-3
 - Add upstream patch to fix the API version number
 
