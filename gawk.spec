@@ -47,7 +47,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          5.0.1
-Release:          7%{?dist}
+Release:          8%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -184,6 +184,17 @@ displaying images. Therefore, this doc subpackage can provide you with HTML, PDF
 and PS versions of those documents, which might be useful when you need to
 access them regularly, and/or when you do not have access to Internet.
 
+# ---------------
+
+%package all-langpacks
+Summary: 	  Additional localisation files for gawk utility
+#Requires:   %{name} = %{version}-%{release}       
+Supplements: %{name} = %{version}-%{release}
+Conflicts: %{name} < 5.0.1-8
+%description all-langpacks
+The base package of gawk supports only the english localisation. This subpackage
+contains additional localisation files.
+
 # === BUILD INSTRUCTIONS ======================================================
 
 # Call the 'autosetup' macro to prepare the environment, but do not patch the
@@ -251,7 +262,8 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
-%files -f %{name}.lang
+#%files -f %{name}.lang
+%files
 %{_bindir}/*awk
 %{_libdir}/*awk
 %{_datadir}/*awk
@@ -265,6 +277,8 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 %doc NEWS README POSIX.STD README_d/README.multibyte
 %license COPYING LICENSE.GPLv2 LICENSE.LGPLv2 LICENSE.BSD
 
+# ---------------
+%files -f %{name}.lang all-langpacks
 # ---------------
 
 %files devel
@@ -281,6 +295,9 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Tue Feb 18 2020 Jakub Martisko <jamartis@redhat.com> - 5.0.1-8
+- Split the package into the main package and locales subpackage
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
