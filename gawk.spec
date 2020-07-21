@@ -46,8 +46,8 @@
 
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
-Version:          5.0.1
-Release:          8%{?dist}
+Version:          5.1.0
+Release:          1%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -114,16 +114,10 @@ BuildRequires:    automake
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
 #Patch000: example000.patch
-#Patch000: gawk-4.2.1-000-add-support-for-a-and-A-in-printf.patch
-#Patch001: gawk-4.2.1-001-remove-the-tail-recursion-optimization.patch
-#Patch002: gawk-4.2.1-002-copy-MPZ-MPFR-bits-also-in-r_dupnode.patch
-#Patch003: gawk-4.2.1-003-fix-rebuilding-records-if-using-API-parser.patch
-#Patch004: gawk-4.2.1-004-fix-a-corner-case-with-EPIPE-to-stdout-stderr.patch
-Patch005: gawk-inplace-namespace-part1.patch
-Patch006: gawk-inplace-namespace-part2.patch
+
 #Parts of the patch dealing with .info files, were removed, some parts of documentation might be broken
-Patch007: gawk-inplace-namespace-part3.patch
-Patch008: gawk-api-version.patch
+
+#Patch008: gawk-api-version.patch
 
 
 
@@ -141,7 +135,7 @@ Patch008: gawk-api-version.patch
 
 # Patches to be removed -- deprecated functionality which shall be removed at
 # ---------------------    some point in the future:
-Patch200: gawk-4.2.1-200-fix-build-for-f29.patch
+#Patch200: gawk-4.2.1-200-fix-build-for-f29.patch
 
 
 %description
@@ -188,7 +182,6 @@ access them regularly, and/or when you do not have access to Internet.
 
 %package all-langpacks
 Summary: 	  Additional localisation files for gawk utility
-#Requires:   %{name} = %{version}-%{release}       
 Supplements: %{name} = %{version}-%{release}
 Conflicts: %{name} < 5.0.1-8
 %description all-langpacks
@@ -295,6 +288,9 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Tue Jul 21 2020 Jakub Martisko <jamartis@redhat.com> - 5.1.0-1
+- New upstream release
+
 * Tue Feb 18 2020 Jakub Martisko <jamartis@redhat.com> - 5.0.1-8
 - Split the package into the main package and locales subpackage
 
