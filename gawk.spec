@@ -103,6 +103,7 @@ BuildRequires:    bison
 # packages to correctly finish the build. These should not be needed in the
 # future, once upstream fixes their requirement on 'aclocal-1.15'.
 BuildRequires:    automake
+BuildRequires: make
 
 # =============================================================================
 
