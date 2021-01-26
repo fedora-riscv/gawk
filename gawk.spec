@@ -47,7 +47,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          5.1.0
-Release:          2%{?dist}
+Release:          3%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -289,6 +289,9 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
