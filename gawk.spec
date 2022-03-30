@@ -47,7 +47,7 @@
 Name:             gawk
 Summary:          The GNU version of the AWK text processing utility
 Version:          5.1.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 
 License:          GPLv3+ and GPLv2+ and LGPLv2+ and BSD
 
@@ -247,12 +247,14 @@ ln -sf /usr/libexec/awk %{buildroot}%{_libexecdir}/gawk
 # Install the all the documentation in the same folder - /usr/share/doc/gawk:
 install -m 0755 -d %{buildroot}%{_docdir}/%{name}/html/gawk/
 install -m 0755 -d %{buildroot}%{_docdir}/%{name}/html/gawkinet/
+install -m 0755 -d %{buildroot}%{_docdir}/%{name}/eg/data/
 
 install -m 0644 -p html/gawk/*           %{buildroot}%{_docdir}/%{name}/html/gawk/
 install -m 0644 -p html/gawkinet/*       %{buildroot}%{_docdir}/%{name}/html/gawkinet/
 
 install -m 0644 -p doc/gawk.{pdf,ps}     %{buildroot}%{_docdir}/%{name}
 install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
+install -m 0644 -p awklib/eg/data/* %{buildroot}%{_docdir}/%{name}/eg/data/
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
@@ -285,10 +287,15 @@ install -m 0644 -p doc/gawkinet.{pdf,ps} %{buildroot}%{_docdir}/%{name}
 %doc %{_docdir}/%{name}/gawk.{pdf,ps}
 %doc %{_docdir}/%{name}/gawkinet.{pdf,ps}
 %doc %{_docdir}/%{name}/html
+%doc %{_docdir}/%{name}/eg
 
 # =============================================================================
 
 %changelog
+* Wed Mar 30 2022 Jakub Martisko <jamartis@redhat.com> - 5.1.1-3
+- Include the sample data files in the gawk-doc subpackage
+Resolves: rhbz#2069821
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
