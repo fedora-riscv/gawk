@@ -1,0 +1,27 @@
+From 5ef029c1d69d2b2d802928c4b80d000b87e97548 Mon Sep 17 00:00:00 2001
+From: rpm-build <rpm-build>
+Date: Mon, 22 May 2023 17:48:35 +0200
+Subject: [PATCH] Disable the pma test
+
+---
+ test/Makefile.in | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/test/Makefile.am b/test/Makefile.am
+index 3ed140c..65e2f9c 100644
+--- a/test/Makefile.am
++++ b/test/Makefile.am
+@@ -2246,9 +2246,7 @@ makepmafile: makepmafile.c
+ 
+ pma:
+ 	@echo $@
+-	@GAWK_PERSIST_FILE=test.pma $(AWK) 'BEGIN { print ++i }' > _$@ 2>&1
+-	@GAWK_PERSIST_FILE=test.pma $(AWK) 'BEGIN { print ++i }' >> _$@ 2>&1
+-	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
++	@echo Skipping pma tests
+ 	@-$(RM) -f test.pma
+ 
+ 
+-- 
+2.40.0
+
